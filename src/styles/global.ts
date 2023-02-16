@@ -50,9 +50,43 @@ const GlobalSyle = createGlobalStyle`
         --random-11: #5700E3;
         --random-12: #30007D;
 
+        /* Fonts Family */
+
+        --font-primary: 'Lexend', sans-serif;
+        --font-secondary:'Inter', sans-serif;
+
         /* Typography */
         
+        --heading-1-700: 700 42px var(--font-primary);
 
+        --heading-2-600: 600 36px var(--font-primary);
+
+        --heading-3-600: 600 32px var(--font-primary);
+        --heading-3-500: 500 32px var(--font-primary);
+
+        --heading-4-600: 600 28px var(--font-primary);
+        --heading-4-500: 500 28px var(--font-primary);
+
+        --heading-5-600: 600 24px var(--font-primary);
+        --heading-5-500: 500 24px var(--font-primary);
+
+        --heading-6-600: 600 20px var(--font-primary);
+        --heading-6-500: 500 20px var(--font-primary);
+
+        --heading-7-600: 600 16px var(--font-primary);
+        --heading-7-500: 500 16px var(--font-primary);
+
+        --body-1-400: 400 16px var(--font-secondary);
+        --body-1-600: 600 16px var(--font-secondary);
+
+        --body-2-400: 400 14px var(--font-secondary);
+        --body-2-500: 500 14px var(--font-secondary);
+
+        --button-big-text: 600 16px var(--font-secondary);
+        --button-medium-text: 600 14px var(--font-secondary);
+
+        --input-placeholder: 400 16px var(--font-secondary);
+        --input-label: 400 16px var(--font-secondary);
     }
 `
 
