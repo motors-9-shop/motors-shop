@@ -57,34 +57,27 @@ export const styleGuide = extendTheme({
             12: "#30007D"
         }
     },
-    fonts: {
-        headings: {
-            heading1700: fontFormer(42, 700),
-            heading2600: fontFormer(36, 600),
-            heading3600: fontFormer(32, 600),
-            heading3500: fontFormer(32, 500),
-            heading4600: fontFormer(28, 600),
-            heading4500: fontFormer(28, 500),
-            heading5600: fontFormer(24, 600),
-            heading5500: fontFormer(24, 500),
-            heading6600: fontFormer(20, 600),
-            heading6500: fontFormer(20, 500),
-            heading7600: fontFormer(16, 600),
-            heading7500: fontFormer(16, 500)
-        },
-        bodies: {
-            body1400: fontFormer(16, 400, AllFonts.secondary),
-            body1600: fontFormer(16, 600, AllFonts.secondary),
-            body2400: fontFormer(14, 400, AllFonts.secondary),
-            body2500: fontFormer(14, 500, AllFonts.secondary)
-        },
-        buttons: {
-            buttonBigText: fontFormer(16, 600, AllFonts.secondary),
-            buttonMediumText: fontFormer(14, 600, AllFonts.secondary)
-        },
-        input: {
-            inputPlaceholder: fontFormer(16, 400, AllFonts.secondary),
-            inputLabel: fontFormer(16, 400, AllFonts.secondary)
-        }
+    textStyles: {
+        "heading-1-700": fontFormer(42, 700),
+        "heading-2-600": fontFormer(36, 600),
+        "heading-3-600": fontFormer(32, 600),
+        "heading-3-500": fontFormer(32, 500),
+        "heading-4-600": fontFormer(28, 600),
+        "heading-4-500": fontFormer(28, 500),
+        "heading-5-600": fontFormer(24, 600),
+        "heading-5-500": fontFormer(24, 500),
+        "heading-6-600": fontFormer(20, 600),
+        "heading-6-500": fontFormer(20, 500),
+        "heading-7-600": fontFormer(16, 600),
+        "heading-7-500": fontFormer(16, 500),
+        "body-1-400": fontFormer(16, 400, AllFonts.secondary),
+        "body-1-600": fontFormer(16, 600, AllFonts.secondary),
+        "body-2-400": fontFormer(14, 400, AllFonts.secondary),
+        "body-2-500": fontFormer(14, 500, AllFonts.secondary),
+        "button-big-text": fontFormer(16, 600, AllFonts.secondary),
+        "button-medium-text": fontFormer(14, 600, AllFonts.secondary),
+        "input-placeholder": fontFormer(16, 400, AllFonts.secondary),
+        "input-label": fontFormer(16, 400, AllFonts.secondary)
     }
 })
+
