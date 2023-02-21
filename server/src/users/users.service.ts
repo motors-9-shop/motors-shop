@@ -1,11 +1,30 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Address } from './entities/address.entity';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
+  constructor(
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+    private addressesRepository: Repository<Address>,
+  ) {}
+
   create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+    const addressInstance = this.addressesRepository.create(
+      createUserDto.address,
+    );
+    this.addressesRepository.save(addressInstance);
+
+    createUserDto.address = addressInstance;
+
+    const userInstance = this.usersRepository.create(createUserDto);
+
+    return this.usersRepository.save(userInstance);
   }
 
   findAll() {

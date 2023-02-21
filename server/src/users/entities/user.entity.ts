@@ -60,6 +60,7 @@ export class User {
   updatedAt: Date;
 
   @OneToOne(() => Address, (address) => address.user)
+  @JoinColumn()
   address: Address;
 
   @OneToMany(() => Ad, (ad) => ad.user)

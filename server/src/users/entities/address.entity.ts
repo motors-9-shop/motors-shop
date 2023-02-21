@@ -31,6 +31,5 @@ export class Address {
   cep: string;
 
   @OneToOne(() => User, (user) => user.address)
-  @JoinColumn()
   user: User;
 }
