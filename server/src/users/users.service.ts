@@ -1,6 +1,11 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { validate } from 'class-validator';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Address } from './entities/address.entity';
@@ -14,7 +19,12 @@ export class UsersService {
     private addressesRepository: Repository<Address>,
   ) {}
 
-  create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto) {
+    const errors = await validate(createUserDto);
+    if (errors.length > 0) {
+      throw new BadRequestException(errors);
+    }
+
     const emailFind = this.usersRepository.findOne({
       where: { email: createUserDto.email },
     });
@@ -39,8 +49,16 @@ export class UsersService {
     return `This action returns all users`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(where: FindOptionsWhere<User>) {
+    const user = await this.usersRepository.findOne({
+      where,
+    });
+
+    if (!user) {
+      throw new NotFoundException('user not found');
+    }
+
+    return user;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

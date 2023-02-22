@@ -4,8 +4,8 @@ import { DataSource } from 'typeorm';
 
 const rootLocation = join(__dirname, '..');
 
-const entities = [rootLocation + '/**/*.entity.ts'];
-const migrations = [rootLocation + '/database/migrations'];
+const entities = [rootLocation + '/**/*.entity{.ts,.js}'];
+const migrations = [rootLocation + '/database/migrations/*{.ts,.js}'];
 
 export const AppDataSource = new DataSource({
   type: 'postgres',

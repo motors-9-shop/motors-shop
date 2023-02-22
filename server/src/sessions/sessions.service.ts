@@ -1,24 +1,28 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { compare } from 'bcryptjs';
+import { UsersService } from '../users/users.service';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
 export class SessionsService {
-  create(createSessionDto) {
-    return 'This action adds a new session';
-  }
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService,
+  ) {}
 
-  findAll() {
-    return `This action returns all sessions`;
-  }
+  async login({ email, password }: LoginUserDto) {
+    const user = await this.usersService.findOne({ email });
 
-  findOne(id: number) {
-    return `This action returns a #${id} session`;
-  }
+    const passwordIsValid = await compare(password, user.password);
+    if (!passwordIsValid) {
+      throw new BadRequestException("user or password don't match");
+    }
 
-  update(id: number, updateSessionDto) {
-    return `This action updates a #${id} session`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} session`;
+    const token = this.jwtService.sign(
+      { email: user.email },
+      { subject: user.id, expiresIn: '7d' },
+    );
+    return { token };
   }
 }
