@@ -4,7 +4,7 @@ import { NotFoundException, BadRequestException } from '@nestjs/common';
 export async function getOr404(
   repository: Repository<any>,
   id: string,
-  relationsList?: string[],
+  relationsList?: any[],
 ) {
   const relations = {};
 
@@ -17,7 +17,6 @@ export async function getOr404(
       },
       relations,
     });
-
     if (!item) {
       throw new NotFoundException();
     }

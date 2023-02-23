@@ -6,7 +6,7 @@ import { UpdateAdDto } from './dto/update-ad.dto';
 import { Ad } from './entities/ad.entity';
 import { Image } from './entities/image.entity';
 import { Vehicle } from './entities/vehicle.entity';
-import { NotFoundException, BadRequestException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 import { getOr404 } from './ads.utils';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class AdsService {
     private vehicleRepository: Repository<Vehicle>,
   ) {}
 
-  async create(createAdDto: CreateAdDto) {
+  async create(createAdDto: CreateAdDto, userID: string) {
     const newVehicle = this.vehicleRepository.create({
       name: createAdDto.vehicle.name,
       type: createAdDto.vehicle.type,
@@ -31,22 +31,20 @@ export class AdsService {
     });
 
     createAdDto.vehicle.images.forEach(async (elem) => {
-      const image = this.imageRepository.create({
-        url: elem,
-      });
+      const image = new Image();
 
-      const savedImage = await this.imageRepository.save(image);
+      image.url = elem;
 
-      newVehicle.images.push(savedImage);
+      newVehicle.images.push(image);
     });
-
-    await this.vehicleRepository.save(newVehicle);
 
     const newAd = this.adRepository.create({
       description: createAdDto.description,
       price: createAdDto.price,
       type: createAdDto.type,
-      user: {},
+      user: {
+        id: userID,
+      },
       vehicle: newVehicle,
     });
 
@@ -59,7 +57,14 @@ export class AdsService {
     const ads = await this.adRepository.find({
       select: {
         user: {
+          id: true,
           name: true,
+        },
+      },
+      relations: {
+        user: true,
+        vehicle: {
+          images: true,
         },
       },
     });
@@ -68,29 +73,123 @@ export class AdsService {
   }
 
   async findOne(id: string) {
-    const ad = await getOr404(this.adRepository, id, ['vehicle', 'user']);
+    const ad = await this.adRepository.findOne({
+      where: {
+        id,
+      },
+      select: {
+        user: {
+          name: true,
+          description: true,
+        },
+      },
+      relations: {
+        user: true,
+        vehicle: {
+          images: true,
+        },
+      },
+    });
+
+    if (!ad) {
+      throw new NotFoundException();
+    }
 
     return ad;
   }
 
   async update(id: string, updateAdDto: UpdateAdDto) {
+    const UpdateVehDto = updateAdDto.vehicle;
+
+    const ad = await this.adRepository.findOne({
+      where: {
+        id,
+      },
+      relations: {
+        vehicle: {
+          images: true,
+        },
+      },
+    });
+
+    if (!ad) {
+      throw new NotFoundException();
+    }
+
+    await this.adRepository.update(
+      { id: id },
+      {
+        // eslint-disable-next-line prettier/prettier
+        description: updateAdDto.description ? updateAdDto.description : ad.description,
+        price: updateAdDto.price ? updateAdDto.price : ad.price,
+        type: updateAdDto.type ? updateAdDto.type : ad.type,
+        isActive: updateAdDto.isActive ? updateAdDto.isActive : ad.isActive,
+      },
+    );
+
+    const images = UpdateVehDto.images?.map((image_url) => {
+      const image = new Image();
+
+      image.url = image_url;
+
+      return image;
+    });
+
+    const vehicle = await this.vehicleRepository.findOne({
+      where: {
+        id: ad.vehicle.id,
+      },
+      relations: {
+        images: true,
+      },
+    });
+
+    vehicle.bannerUrl = UpdateVehDto.bannerUrl
+      ? UpdateVehDto.bannerUrl
+      : vehicle.bannerUrl;
+    vehicle.images = images ? images : vehicle.images;
+    vehicle.km = UpdateVehDto.km ? UpdateVehDto.km : vehicle.km;
+    vehicle.name = UpdateVehDto.name ? UpdateVehDto.name : vehicle.name;
+    vehicle.type = UpdateVehDto.type ? UpdateVehDto.type : vehicle.type;
+    vehicle.year = UpdateVehDto.year ? UpdateVehDto.year : vehicle.year;
+    vehicle.images = images ? images : vehicle.images;
+
+    await this.vehicleRepository.save(vehicle);
+
+    const updatedAd = await this.adRepository.findOne({
+      where: {
+        id: id,
+      },
+      relations: {
+        vehicle: {
+          images: true,
+        },
+        user: true,
+      },
+      select: {
+        user: {
+          id: true,
+          name: true,
+        },
+      },
+    });
+
+    return updatedAd;
+  }
+
+  async remove(id: string) {
     const ad: Ad = await getOr404(this.adRepository, id, ['vehicle']);
     const vehicle: Vehicle = await getOr404(
       this.vehicleRepository,
       ad.vehicle.id,
+      ['images'],
     );
-  }
 
-  async remove(id: string) {
-    try {
-      const ad = await this.adRepository.findOneBy({ id });
+    vehicle.images.forEach(
+      async (image) => await this.imageRepository.delete({ id: image.id }),
+    );
 
-      if (!ad) {
-        throw new NotFoundException();
-      }
-      return ad;
-    } catch (error: any) {
-      throw new BadRequestException(error.message);
-    }
+    await this.vehicleRepository.delete({ id: ad.vehicle.id });
+    await this.adRepository.delete({ id: ad.id });
   }
 }

@@ -3,39 +3,13 @@ import {
   IsString,
   IsNumber,
   IsEnum,
-  IsArray,
   ValidateNested,
   IsBoolean,
+  IsOptional,
 } from 'class-validator';
-import { VehicleType } from '../entities/vehicle.entity';
 import { AdType } from '../entities/ad.entity';
 import { Type } from 'class-transformer';
-import { Image } from '../entities/image.entity';
-
-class CreateVehicleDto {
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
-  @IsNumber()
-  @IsNotEmpty()
-  km: number;
-
-  @IsNumber()
-  @IsNotEmpty()
-  year: number;
-
-  @IsString()
-  @IsNotEmpty()
-  bannerUrl: string;
-
-  @IsEnum(VehicleType)
-  @IsNotEmpty()
-  type: VehicleType;
-
-  @IsArray()
-  images: string[];
-}
+import { CreateVehicleDto } from './create-vehicle.dto';
 
 export class CreateAdDto {
   @IsString()
@@ -55,6 +29,7 @@ export class CreateAdDto {
   @Type(() => CreateVehicleDto)
   vehicle: CreateVehicleDto;
 
+  @IsOptional()
   @IsBoolean()
   isActive: boolean;
 }
