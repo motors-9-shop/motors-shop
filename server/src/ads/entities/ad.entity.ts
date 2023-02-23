@@ -40,12 +40,12 @@ export class Ad {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.ads)
+  @ManyToOne(() => User, (user) => user.ads, { onDelete: 'CASCADE' })
   user: User;
 
-  @OneToOne(() => Vehicle, (vehicle) => vehicle.ad)
+  @OneToOne(() => Vehicle, (vehicle) => vehicle.ad, { cascade: true })
   vehicle: Vehicle;
 
-  @OneToMany(() => Comment, (comment) => comment.ad)
+  @OneToMany(() => Comment, (comment) => comment.ad, { cascade: true })
   comments: Comment[];
 }

@@ -2,10 +2,8 @@ import 'dotenv/config';
 import { join } from 'path';
 import { DataSource } from 'typeorm';
 
-const rootLocation = join(__dirname, '..');
-
-const entities = [rootLocation + '/**/*.entity.ts'];
-const migrations = [rootLocation + '/database/migrations'];
+const entities = [join(__dirname, '..', '**', '*.entity{.ts,.js}')];
+const migrations = [join(__dirname, 'migrations', '*{.ts,.js}')];
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
