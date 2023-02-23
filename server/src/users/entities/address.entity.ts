@@ -30,6 +30,7 @@ export class Address {
   @Column()
   cep: string;
 
-  @OneToOne(() => User, (user) => user.address)
+  @OneToOne(() => User, (user) => user.address, { onDelete: 'CASCADE' })
+  @JoinColumn()
   user: User;
 }

@@ -3,7 +3,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -52,15 +51,15 @@ export class User {
   @Column('enum', { enum: UserRole, default: UserRole.COMMON })
   role: UserRole;
 
-  @JoinColumn()
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToOne(() => Address, (address) => address.user)
-  @JoinColumn()
+  @OneToOne(() => Address, (address) => address.user, {
+    cascade: true,
+  })
   address: Address;
 
   @OneToMany(() => Ad, (ad) => ad.user)
