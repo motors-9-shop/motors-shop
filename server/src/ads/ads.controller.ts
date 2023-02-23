@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Request
 } from '@nestjs/common';
 import { AdsService } from './ads.service';
 import { CreateAdDto } from './dto/create-ad.dto';
@@ -27,16 +28,16 @@ export class AdsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.adsService.findOne(+id);
+    return this.adsService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAdDto: UpdateAdDto) {
-    return this.adsService.update(+id, updateAdDto);
+    return this.adsService.update(id, updateAdDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.adsService.remove(+id);
+    return this.adsService.remove(id);
   }
 }
