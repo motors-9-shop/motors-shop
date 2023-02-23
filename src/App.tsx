@@ -1,9 +1,9 @@
-import RegisterUser from "./pages/register";
+import PageAdsDetail from "./pages/pageAdsDetail";
 
 const App = () => {
   return (
     <div className="App">
-      <RegisterUser />
+      <PageAdsDetail />
     </div>
   );
 };
