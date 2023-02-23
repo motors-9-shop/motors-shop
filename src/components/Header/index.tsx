@@ -17,7 +17,14 @@ const Header = () => {
           Motors <span>shop</span>
         </h1>
       </div>
-      <Menu>
+      <Button bg="white">Carros</Button>
+      <Button bg="white">Motos</Button>
+      <Button bg="white">Leilão</Button>
+      <Button bg="white" borderTop="1px solid #ADB5BD" borderRadius={"none"}>
+        Fazer Login
+      </Button>
+      <Button bg="white">Cadastrar</Button>
+      {/* <Menu>
         <MenuButton
           as={IconButton}
           aria-label="Options"
@@ -33,7 +40,7 @@ const Header = () => {
             <Button>Cadastrar</Button>
           </MenuItem>
         </MenuList>
-      </Menu>
+      </Menu> */}
     </header>
   );
 };
