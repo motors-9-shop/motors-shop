@@ -1,4 +1,6 @@
+import { ApiHideProperty } from '@nestjs/swagger';
 import { hashSync } from 'bcryptjs';
+import { Exclude } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -34,11 +36,15 @@ export class User {
       from: (value) => value,
     },
   })
+  @ApiHideProperty()
+  @Exclude()
   password: string;
 
   @Column('date')
   dateOfBirth: string;
 
+  @ApiHideProperty()
+  @Exclude()
   @Column({ unique: true, length: 11 })
   cpf: string;
 

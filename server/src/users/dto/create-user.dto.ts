@@ -1,24 +1,49 @@
-import { DeepPartial } from 'typeorm';
-import { Address } from '../entities/address.entity';
+import { Type } from 'class-transformer';
+import {
+  IsDateString,
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsNumberString,
+  IsOptional,
+  IsPhoneNumber,
+  IsString,
+  IsStrongPassword,
+  Length,
+  ValidateNested,
+} from 'class-validator';
+import { UserRole } from '../entities/user.entity';
+import { CreateAddressDto } from './create-address.dto';
 
 export class CreateUserDto {
+  @IsNotEmpty()
+  @IsString()
   name: string;
 
+  @IsStrongPassword({})
   password: string;
 
+  @IsDateString()
   dateOfBirth: string;
 
+  @IsEmail()
   email: string;
 
+  @Length(11, 11)
+  @IsNumberString()
   cpf: string;
 
+  @IsPhoneNumber('BR')
   phone: string;
 
+  @IsOptional()
+  @IsString()
   description: string;
 
-  createdAt: string;
+  @IsEnum(UserRole)
+  role: UserRole;
 
-  updatedAt: string;
-
-  address: DeepPartial<Address>;
+  @ValidateNested()
+  @Type(() => CreateAddressDto)
+  address: CreateAddressDto;
 }
