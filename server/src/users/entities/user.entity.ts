@@ -1,9 +1,10 @@
+import { ApiHideProperty } from '@nestjs/swagger';
 import { hashSync } from 'bcryptjs';
+import { Exclude } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -35,11 +36,15 @@ export class User {
       from: (value) => value,
     },
   })
+  @ApiHideProperty()
+  @Exclude()
   password: string;
 
   @Column('date')
   dateOfBirth: string;
 
+  @ApiHideProperty()
+  @Exclude()
   @Column({ unique: true, length: 11 })
   cpf: string;
 
@@ -52,14 +57,15 @@ export class User {
   @Column('enum', { enum: UserRole, default: UserRole.COMMON })
   role: UserRole;
 
-  @JoinColumn()
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToOne(() => Address, (address) => address.user)
+  @OneToOne(() => Address, (address) => address.user, {
+    cascade: true,
+  })
   address: Address;
 
   @OneToMany(() => Ad, (ad) => ad.user)

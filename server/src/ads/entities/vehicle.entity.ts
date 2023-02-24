@@ -34,10 +34,12 @@ export class Vehicle {
   @Column('enum', { enum: VehicleType })
   type: VehicleType;
 
-  @OneToOne(() => Ad, (ad) => ad.vehicle)
+  @OneToOne(() => Ad, (ad) => ad.vehicle, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   ad: Ad;
 
-  @OneToMany(() => Image, (image) => image.vehicle)
+  @OneToMany(() => Image, (image) => image.vehicle, { cascade: true })
   images: Image[];
 }

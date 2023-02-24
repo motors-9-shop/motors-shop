@@ -9,6 +9,10 @@ export class Image {
   @Column()
   url: string;
 
-  @ManyToOne(() => Vehicle, (vehicle) => vehicle.images)
+  @ManyToOne(() => Vehicle, (vehicle) => vehicle.images, {
+    nullable: false,
+    onDelete: 'CASCADE',
+    orphanedRowAction: 'delete',
+  })
   vehicle: Vehicle;
 }
