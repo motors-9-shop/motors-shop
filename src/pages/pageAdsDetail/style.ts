@@ -1,10 +1,20 @@
 import styled from "styled-components";
 
+export const Main = styled.main`
+  display: flex;
+  flex-direction: column;
+`;
+
 export const SectionLeft = styled.section`
   display: flex;
   flex-direction: column;
-  background-color: beige;
   width: 100%;
+  background: linear-gradient(
+    180deg,
+    #4529e6 31.25%,
+    #f1f3f5 31.26%,
+    #f1f3f5 100%
+  );
 
   .div-car {
     width: 90%;
@@ -22,12 +32,26 @@ export const SectionLeft = styled.section`
     .img-car {
       width: 90%;
       height: 60%;
+
+      @media only screen and (min-width: 768px) {
+        & {
+          height: 80%;
+          max-width: 622px;
+        }
+      }
+    }
+
+    @media only screen and (min-width: 768px) {
+      & {
+        height: 350px;
+        max-width: 478.23px;
+      }
     }
   }
 
   .div-info-car {
     width: 90%;
-    height: 300px;
+    height: 250px;
     margin-left: 5%;
     border-radius: 8px;
     margin-top: 5px;
@@ -53,6 +77,13 @@ export const SectionLeft = styled.section`
 
       width: 90%;
       margin-top: 15px;
+    }
+
+    @media only screen and (min-width: 768px) {
+      & {
+        height: 350px;
+        max-width: 478.23px;
+      }
     }
   }
 
@@ -81,8 +112,212 @@ export const SectionLeft = styled.section`
       padding-left: 20px;
     }
 
-    @media only screen and (min-width: 586px) {
+    @media only screen and (min-width: 768px) {
       & {
+        height: 350px;
+        max-width: 478.23px;
+      }
+    }
+  }
+
+  .div-photo-car {
+    width: 90%;
+    height: 300px;
+    margin-left: 5%;
+    border-radius: 8px;
+    margin-top: 5px;
+
+    background-color: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .p-photo {
+      padding-left: 20px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    ul {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin-top: 20px;
+
+      li {
+        width: 80px;
+        height: 80px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+
+        background-color: blue;
+
+        list-style: none;
+      }
+
+      @media only screen and (min-width: 768px) {
+        & {
+          margin-left: 10%;
+        }
+      }
+    }
+
+    @media only screen and (min-width: 768px) {
+      & {
+        height: 350px;
+        max-width: 350px;
+      }
+    }
+  }
+
+  .div-user {
+    width: 90%;
+    height: 350px;
+    margin-left: 5%;
+    border-radius: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+
+    background-color: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .img-user {
+      width: 25%;
+      height: 20%;
+
+      margin-top: 10px;
+
+      border-radius: 55px;
+
+      @media only screen and (min-width: 768px) {
+        & {
+          height: 30%;
+          width: 15%;
+          max-width: 103.67px;
+        }
+      }
+    }
+
+    .p-name {
+      font-weight: bold;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .p-desc-user {
+      font-size: 15px;
+      width: 90%;
+      margin-bottom: 10px;
+    }
+
+    @media only screen and (min-width: 768px) {
+      & {
+        height: 350px;
+        max-width: 350px;
+      }
+    }
+  }
+
+  @media only screen and (min-width: 1024px) {
+    & {
+      flex-direction: row;
+    }
+  }
+`;
+
+export const SectionRigth = styled.section`
+  display: flex;
+  flex-direction: column;
+  background-color: #f1f3f5;
+  width: 100%;
+
+  .div-comments {
+    display: flex;
+    flex-direction: column;
+
+    background-color: white;
+
+    width: 90%;
+    margin-left: 5%;
+    border-radius: 8px;
+    margin-top: 5px;
+
+    h2 {
+      font-weight: bold;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      padding-left: 20px;
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    li {
+      list-style: none;
+      margin-bottom: 15px;
+
+      .p-name-li {
+        font-weight: bold;
+      }
+
+      span {
+        font-weight: normal;
+      }
+    }
+
+    @media only screen and (min-width: 1024px) {
+      & {
+        margin-left: 2.5%;
+        max-width: 478.23px;
+      }
+    }
+  }
+
+  .div-user-comments {
+    display: flex;
+    flex-direction: column;
+
+    background-color: white;
+
+    width: 90%;
+    margin-left: 5%;
+    border-radius: 8px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    p {
+      padding-left: 20px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      margin-top: 10px;
+    }
+
+    textarea {
+      width: 90%;
+      height: 120px;
+
+      margin-left: 5%;
+      margin-bottom: 10px;
+
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+
+      color: #868e96;
+    }
+
+    @media only screen and (min-width: 1024px) {
+      & {
+        margin-left: 2.5%;
+        max-width: 478.23px;
       }
     }
   }
