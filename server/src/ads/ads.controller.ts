@@ -1,11 +1,11 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   UseGuards,
 } from '@nestjs/common';
 import { User } from 'src/decorators/';
@@ -31,7 +31,7 @@ export class AdsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.adsService.findOne(id);
+    return this.adsService.findOne({ id });
   }
 
   @Patch(':id')

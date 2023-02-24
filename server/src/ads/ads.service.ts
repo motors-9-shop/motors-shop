@@ -1,13 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
+import { getOr404 } from './ads.utils';
 import { CreateAdDto } from './dto/create-ad.dto';
 import { UpdateAdDto } from './dto/update-ad.dto';
 import { Ad } from './entities/ad.entity';
 import { Image } from './entities/image.entity';
 import { Vehicle } from './entities/vehicle.entity';
-import { NotFoundException } from '@nestjs/common';
-import { getOr404 } from './ads.utils';
 
 @Injectable()
 export class AdsService {
@@ -20,32 +19,18 @@ export class AdsService {
     private vehicleRepository: Repository<Vehicle>,
   ) {}
 
-  async create(createAdDto: CreateAdDto, userID: string) {
-    const newVehicle = this.vehicleRepository.create({
-      name: createAdDto.vehicle.name,
-      type: createAdDto.vehicle.type,
-      year: createAdDto.vehicle.year,
-      images: [],
-      km: createAdDto.vehicle.km,
-      bannerUrl: createAdDto.vehicle.bannerUrl,
-    });
-
-    createAdDto.vehicle.images.forEach(async (elem) => {
-      const image = new Image();
-
-      image.url = elem;
-
-      newVehicle.images.push(image);
-    });
+  async create(createAdDto: CreateAdDto, userId: string) {
+    const vehicle = {
+      ...createAdDto.vehicle,
+      images: createAdDto.vehicle.images?.map((url: string) => ({ url })),
+    };
 
     const newAd = this.adRepository.create({
-      description: createAdDto.description,
-      price: createAdDto.price,
-      type: createAdDto.type,
+      ...createAdDto,
+      vehicle,
       user: {
-        id: userID,
+        id: userId,
       },
-      vehicle: newVehicle,
     });
 
     const returnAd = await this.adRepository.save(newAd);
@@ -72,11 +57,9 @@ export class AdsService {
     return ads;
   }
 
-  async findOne(id: string) {
+  async findOne(where: FindOptionsWhere<Ad>) {
     const ad = await this.adRepository.findOne({
-      where: {
-        id,
-      },
+      where,
       select: {
         user: {
           name: true,
@@ -99,62 +82,24 @@ export class AdsService {
   }
 
   async update(id: string, updateAdDto: UpdateAdDto) {
-    const UpdateVehDto = updateAdDto.vehicle;
+    const ad = await this.findOne({ id });
 
-    const ad = await this.adRepository.findOne({
-      where: {
-        id,
-      },
-      relations: {
-        vehicle: {
-          images: true,
-        },
-      },
-    });
+    if (updateAdDto?.vehicle) {
+      const { vehicle } = updateAdDto;
+      const images =
+        vehicle.images?.map((url) => this.imageRepository.create({ url })) ??
+        ad.vehicle.images;
 
-    if (!ad) {
-      throw new NotFoundException();
+      ad.vehicle = this.vehicleRepository.create({
+        ...ad.vehicle,
+        ...vehicle,
+        images,
+      });
     }
 
-    await this.adRepository.update(
-      { id: id },
-      {
-        // eslint-disable-next-line prettier/prettier
-        description: updateAdDto.description ? updateAdDto.description : ad.description,
-        price: updateAdDto.price ? updateAdDto.price : ad.price,
-        type: updateAdDto.type ? updateAdDto.type : ad.type,
-        isActive: updateAdDto.isActive ? updateAdDto.isActive : ad.isActive,
-      },
-    );
+    const newAd = { ...ad, ...updateAdDto, vehicle: ad.vehicle };
 
-    const images = UpdateVehDto.images?.map((image_url) => {
-      const image = new Image();
-
-      image.url = image_url;
-
-      return image;
-    });
-
-    const vehicle = await this.vehicleRepository.findOne({
-      where: {
-        id: ad.vehicle.id,
-      },
-      relations: {
-        images: true,
-      },
-    });
-
-    vehicle.bannerUrl = UpdateVehDto.bannerUrl
-      ? UpdateVehDto.bannerUrl
-      : vehicle.bannerUrl;
-    vehicle.images = images ? images : vehicle.images;
-    vehicle.km = UpdateVehDto.km ? UpdateVehDto.km : vehicle.km;
-    vehicle.name = UpdateVehDto.name ? UpdateVehDto.name : vehicle.name;
-    vehicle.type = UpdateVehDto.type ? UpdateVehDto.type : vehicle.type;
-    vehicle.year = UpdateVehDto.year ? UpdateVehDto.year : vehicle.year;
-    vehicle.images = images ? images : vehicle.images;
-
-    await this.vehicleRepository.save(vehicle);
+    await this.adRepository.save(newAd, { reload: true });
 
     const updatedAd = await this.adRepository.findOne({
       where: {
