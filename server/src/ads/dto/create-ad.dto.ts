@@ -1,14 +1,16 @@
+import { Transform, Type } from 'class-transformer';
 import {
-  IsNotEmpty,
-  IsString,
-  IsNumber,
-  IsEnum,
-  ValidateNested,
   IsBoolean,
+  IsCurrency,
+  IsEnum,
+  IsNotEmpty,
+  IsNotEmptyObject,
+  isNumberString,
   IsOptional,
+  IsString,
+  ValidateNested,
 } from 'class-validator';
 import { AdType } from '../entities/ad.entity';
-import { Type } from 'class-transformer';
 import { CreateVehicleDto } from './create-vehicle.dto';
 
 export class CreateAdDto {
@@ -16,15 +18,31 @@ export class CreateAdDto {
   @IsNotEmpty()
   description: string;
 
-  @IsNumber()
+  @IsCurrency({
+    digits_after_decimal: [1, 2],
+    thousands_separator: '.',
+    decimal_separator: ',',
+    require_symbol: false,
+  })
   @IsNotEmpty()
-  price: number;
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      value = value.replace(/[^\d,.]/g, '');
+    }
+
+    if (isNumberString(value) || typeof value === 'number') {
+      value = (+value).toLocaleString('pt-BR');
+    }
+
+    return value;
+  })
+  price: string;
 
   @IsEnum(AdType)
   @IsNotEmpty()
   type: AdType;
 
-  @IsNotEmpty()
+  @IsNotEmptyObject()
   @ValidateNested()
   @Type(() => CreateVehicleDto)
   vehicle: CreateVehicleDto;

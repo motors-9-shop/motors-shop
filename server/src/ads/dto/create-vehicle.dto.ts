@@ -1,9 +1,11 @@
 import {
-  IsNotEmpty,
-  IsString,
-  IsNumber,
-  IsEnum,
   IsArray,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUrl,
 } from 'class-validator';
 import { VehicleType } from '../entities/vehicle.entity';
 
@@ -28,6 +30,8 @@ export class CreateVehicleDto {
   @IsNotEmpty()
   type: VehicleType;
 
+  @IsOptional()
   @IsArray()
+  @IsUrl({}, { each: true })
   images: string[];
 }
