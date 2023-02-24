@@ -1,11 +1,11 @@
-import Header from "../../components/Header";
 import { Button } from "@chakra-ui/react";
+import Header from "../../components/Header";
 import img1 from "./image.png";
 import { Main, SectionLeft, SectionRigth } from "./style";
 /* import { useEffect } from "react";
 import api from "../../services/api"; */
 
-const PageAdsDetail = () => {
+const AdDetailPage = () => {
   /* useEffect(() => {
     api
       .get(`/ads/${id}`, {
@@ -150,4 +150,4 @@ const PageAdsDetail = () => {
   );
 };
 
-export default PageAdsDetail;
+export default AdDetailPage;

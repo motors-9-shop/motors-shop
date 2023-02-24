@@ -1,7 +1,7 @@
-import Header from "../../components/Header";
 import FormRegister from "../../components/FormRegister";
+import Header from "../../components/Header";
 
-const RegisterUser = () => {
+const RegisterPage = () => {
   return (
     <>
       <Header />
@@ -13,4 +13,4 @@ const RegisterUser = () => {
   );
 };
 
-export default RegisterUser;
+export default RegisterPage;
