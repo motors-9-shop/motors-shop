@@ -5,8 +5,10 @@ import {
   Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
+  SerializeOptions,
   UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -20,6 +22,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @SerializeOptions({ groups: ['personal'] })
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
     return await this.usersService.create(createUserDto);
   }
@@ -30,8 +33,8 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne({ id });
+  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
+    return await this.usersService.findOne({ id });
   }
 
   @Patch(':id')

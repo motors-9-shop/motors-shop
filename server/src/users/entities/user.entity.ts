@@ -1,6 +1,6 @@
 import { ApiHideProperty } from '@nestjs/swagger';
 import { hashSync } from 'bcryptjs';
-import { Exclude } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -43,9 +43,9 @@ export class User {
   @Column('date')
   dateOfBirth: string;
 
+  @Column({ unique: true, length: 11 })
   @ApiHideProperty()
   @Exclude()
-  @Column({ unique: true, length: 11 })
   cpf: string;
 
   @Column({ length: 11 })
@@ -65,7 +65,9 @@ export class User {
 
   @OneToOne(() => Address, (address) => address.user, {
     cascade: true,
+    eager: true,
   })
+  @Expose({ groups: ['personal'] })
   address: Address;
 
   @OneToMany(() => Ad, (ad) => ad.user)
