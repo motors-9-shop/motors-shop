@@ -43,7 +43,10 @@ export class Ad {
   @ManyToOne(() => User, (user) => user.ads, { onDelete: 'CASCADE' })
   user: User;
 
-  @OneToOne(() => Vehicle, (vehicle) => vehicle.ad, { cascade: true })
+  @OneToOne(() => Vehicle, (vehicle) => vehicle.ad, {
+    cascade: true,
+    eager: true,
+  })
   vehicle: Vehicle;
 
   @OneToMany(() => Comment, (comment) => comment.ad, { cascade: true })
