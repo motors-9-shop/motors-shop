@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
+import { tranformAdList } from '../utils';
 import { getOr404 } from './ads.utils';
 import { CreateAdDto } from './dto/create-ad.dto';
 import { UpdateAdDto } from './dto/update-ad.dto';
@@ -46,15 +47,9 @@ export class AdsService {
           name: true,
         },
       },
-      relations: {
-        user: true,
-        vehicle: {
-          images: true,
-        },
-      },
     });
 
-    return ads;
+    return tranformAdList(ads);
   }
 
   async findOne(where: FindOptionsWhere<Ad>) {
