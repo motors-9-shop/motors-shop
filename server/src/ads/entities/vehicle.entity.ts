@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import {
   Column,
   Entity,
@@ -40,6 +41,10 @@ export class Vehicle {
   @JoinColumn()
   ad: Ad;
 
-  @OneToMany(() => Image, (image) => image.vehicle, { cascade: true })
+  @OneToMany(() => Image, (image) => image.vehicle, {
+    cascade: true,
+    eager: true,
+  })
+  @Transform(({ value }) => value.map(({ url }) => url))
   images: Image[];
 }

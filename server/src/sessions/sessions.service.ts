@@ -25,4 +25,10 @@ export class SessionsService {
     );
     return { token };
   }
+
+  async getProfile(id: string) {
+    const user = await this.usersService.findOne({ id });
+
+    return user;
+  }
 }
