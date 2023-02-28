@@ -9,7 +9,7 @@ interface IGetAllAdResponse {
 }
 
 export const getAllAd = async () => {
-    const { data } = await api.get<IGetAllAdResponse>("/ads")
+    const { data } = await api.get<IGetAllAdResponse | null>("/ads")
 
     return data
 }
