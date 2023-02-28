@@ -14,7 +14,8 @@ const Home = () => {
   useEffect(() => {
       (async function(){
           const ads = await getAllAd()
-          setAdList(ads)
+
+          if(ads) setAdList(ads.sell.car)
       })()
   }, [])
 
@@ -30,11 +31,11 @@ const Home = () => {
             <Stack spacing={8}>
                 <Flex gap="1rem" flexDir="column">
                     <Text as="h5" textStyle="heading-5-600">Carros</Text>
-                    <AdList adList={adList} filter="car"/>
+                    <AdList adList={adList}/>
                 </Flex>
                 <Flex gap="1rem" flexDir="column">
                     <Text as="h5" textStyle="heading-5-600">Motos</Text>
-                    <AdList adList={adList} filter="motocycle"/>
+                    <AdList adList={adList}/>
                 </Flex>
             </Stack>
         </Box>
