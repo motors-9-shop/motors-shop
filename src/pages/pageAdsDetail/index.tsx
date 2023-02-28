@@ -24,7 +24,7 @@ const PageAdsDetail = () => {
       <Header />
       <Main>
         <SectionLeft>
-          <div>
+          <div className="div-car-geral">
             <div className="div-car">
               <img src={img1} alt="" className="img-car" />
             </div>
@@ -56,7 +56,7 @@ const PageAdsDetail = () => {
               </p>
             </div>
           </div>
-          <div>
+          <div className="div-geral-photo-car">
             <div className="div-photo-car">
               <p className="p-photo">Fotos</p>
               <ul>

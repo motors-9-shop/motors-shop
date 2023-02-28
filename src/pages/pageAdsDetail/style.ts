@@ -16,6 +16,18 @@ export const SectionLeft = styled.section`
     #f1f3f5 100%
   );
 
+  .div-car-geral {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .div-geral-photo-car {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
   .div-car {
     width: 90%;
     height: 300px;
@@ -31,20 +43,14 @@ export const SectionLeft = styled.section`
 
     .img-car {
       width: 90%;
-      height: 60%;
+      height: 240px;
+      max-width: 431px;
 
       @media only screen and (min-width: 768px) {
         & {
           height: 80%;
-          max-width: 622px;
+          max-width: 431px;
         }
-      }
-    }
-
-    @media only screen and (min-width: 768px) {
-      & {
-        height: 350px;
-        max-width: 478.23px;
       }
     }
   }
@@ -79,10 +85,9 @@ export const SectionLeft = styled.section`
       margin-top: 15px;
     }
 
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: 1024px) {
       & {
-        height: 350px;
-        max-width: 478.23px;
+        height: 250px;
       }
     }
   }
@@ -112,10 +117,9 @@ export const SectionLeft = styled.section`
       padding-left: 20px;
     }
 
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: 1024px) {
       & {
         height: 350px;
-        max-width: 478.23px;
       }
     }
   }
@@ -143,13 +147,21 @@ export const SectionLeft = styled.section`
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
       margin-top: 20px;
+      max-width: 288px;
 
       li {
         width: 80px;
         height: 80px;
         margin-left: 10px;
         margin-bottom: 10px;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
 
         background-color: blue;
 
@@ -163,10 +175,10 @@ export const SectionLeft = styled.section`
       }
     }
 
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: 1024px) {
       & {
         height: 350px;
-        max-width: 350px;
+        max-width: 500px;
       }
     }
   }
@@ -201,6 +213,14 @@ export const SectionLeft = styled.section`
           max-width: 103.67px;
         }
       }
+
+      @media only screen and (min-width: 1024px) {
+        & {
+          height: 30%;
+          width: 25%;
+          max-width: 103.67px;
+        }
+      }
     }
 
     .p-name {
@@ -218,7 +238,14 @@ export const SectionLeft = styled.section`
     @media only screen and (min-width: 768px) {
       & {
         height: 350px;
-        max-width: 350px;
+      }
+    }
+
+    @media only screen and (min-width: 1024px) {
+      & {
+        height: 350px;
+        width: 90%;
+        max-width: 500px;
       }
     }
   }
@@ -226,6 +253,7 @@ export const SectionLeft = styled.section`
   @media only screen and (min-width: 1024px) {
     & {
       flex-direction: row;
+      width: 100%;
     }
   }
 `;
@@ -277,7 +305,7 @@ export const SectionRigth = styled.section`
     @media only screen and (min-width: 1024px) {
       & {
         margin-left: 2.5%;
-        max-width: 478.23px;
+        max-width: 45%;
       }
     }
   }
@@ -317,7 +345,7 @@ export const SectionRigth = styled.section`
     @media only screen and (min-width: 1024px) {
       & {
         margin-left: 2.5%;
-        max-width: 478.23px;
+        max-width: 45%;
       }
     }
   }
