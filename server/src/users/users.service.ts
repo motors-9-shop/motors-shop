@@ -27,7 +27,12 @@ export class UsersService {
 
     const userInstance = this.usersRepository.create(createUserDto);
 
-    return this.usersRepository.save(userInstance);
+    const { id } = await this.usersRepository.save(userInstance);
+
+    return this.usersRepository.findOne({
+      where: { id },
+      relations: { ads: true },
+    });
   }
 
   findAll() {
@@ -37,6 +42,9 @@ export class UsersService {
   async findOne(where: FindOptionsWhere<User>) {
     const user = await this.usersRepository.findOne({
       where,
+      relations: {
+        ads: true,
+      },
     });
 
     if (!user) {
