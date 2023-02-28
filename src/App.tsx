@@ -1,10 +1,12 @@
-import PageAdsDetail from "./pages/pageAdsDetail";
+import { ChakraProvider } from "@chakra-ui/react";
+import MainRoutes from "./routes";
+import { styleGuide } from "./styles/styleGuide";
 
 const App = () => {
   return (
-    <div className="App">
-      <PageAdsDetail />
-    </div>
+    <ChakraProvider theme={styleGuide}>
+      <MainRoutes />
+    </ChakraProvider>
   );
 };
 
