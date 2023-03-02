@@ -47,6 +47,9 @@ export class AdsService {
           name: true,
         },
       },
+      relations: {
+        user: true,
+      },
     });
 
     return tranformAdList(ads);
