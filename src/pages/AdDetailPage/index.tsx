@@ -1,23 +1,25 @@
 import { Button } from "@chakra-ui/react";
 import Header from "../../components/Header";
-import img1 from "./image.png";
 import { Main, SectionLeft, SectionRigth } from "./style";
-/* import { useEffect } from "react";
-import api from "../../services/api"; */
+import { useEffect, useState } from "react";
+import api from "../../services/api";
+import { useParams } from "react-router-dom";
 
 const AdDetailPage = () => {
-  /* useEffect(() => {
+  let { adId } = useParams();
+  const [advDetail, setAdvDetail] = useState();
+
+  useEffect(() => {
     api
-      .get(`/ads/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(`/ad/${adId}`, {})
       .then((res) => {
         console.log(res);
+        setAdvDetail(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []); */
+  }, []);
 
   return (
     <>
@@ -26,7 +28,7 @@ const AdDetailPage = () => {
         <SectionLeft>
           <div className="div-car-geral">
             <div className="div-car">
-              <img src={img1} alt="" className="img-car" />
+              <img src={advDetail} alt="" className="img-car" />
             </div>
             <div className="div-info-car">
               <h1>
@@ -69,7 +71,7 @@ const AdDetailPage = () => {
               </ul>
             </div>
             <div className="div-user">
-              <img src={img1} alt="" className="img-user" />
+              <img src={advDetail} alt="" className="img-user" />
               <p className="p-name">Samuel Leão</p>
               <p className="p-desc-user">
                 Lorem Ipsum is simply dummy text of the printing and typesetting
