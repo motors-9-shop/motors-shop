@@ -1,5 +1,6 @@
 <h1 align="center">
   <img src="src/assets/logo-outline.svg" alt="Logo Motors Shop" width="400px" >
+  <span>FRONT END</span>
   <div>
     <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&labelColor=101010" alt="Logo" />
     <img src="https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&labelColor=101010" alt="Logo" />
@@ -15,23 +16,23 @@
 
 Simples aplicação e-commerce de compras e vendas online entre usuários. Essa aplicação desenvolve criação, leitura, atualização e deleção de anúncios, usuários, endereços e comentários.
 
-# Rotas
+<h2 style="color: #5126EA; font-weight: 600">Rotas</h2>
 
-- `/` - Página de início
-- `/login` - Página de login de usuário
-- `/signup` - Página de cadastro de usuário
-- `/ads/:id` - Página de um único anúncio
-- `profile/:id` - Página de perfil de um anunciante (Apenas ser for de um anunciante)
+- <strong style="color: #7076F0;">/</strong> - Página de início
+- <strong style="color: #7076F0;">/login</strong> - Página de login de usuário
+- <strong style="color: #7076F0;">/signup</strong> - Página de cadastro de usuário
+- <strong style="color: #7076F0;">/ads/:id</strong> - Página de um único anúncio
+- <strong style="color: #7076F0;">profile/:id</strong> - Página de perfil de um anunciante (Apenas ser for de um anunciante)
 
-# Clonando
+<h2 style="color: #5126EA; font-weight: 600">Clonando</h2>
 
-_Git_
+<strong style="color: #7076F0;">Git</strong>
 
 ```bash
 git clone git@github.com:motors-9-shop/motors-shop.git
 ```
 
-_GitHub CLI_
+<strong style="color: #7076F0;">GitHub CLI</strong>
 
 ```bash
 gh repo clone git@github.com:motors-9-shop/motors-shop.git
@@ -41,13 +42,13 @@ gh repo clone git@github.com:motors-9-shop/motors-shop.git
 gh repo clone motors-9-shop/motors-shop
 ```
 
-# Executando
+<h2 style="color: #5126EA; font-weight: 600">Executando</h2>
 
-## Requisitos
+<h3 style="color: #AAA4EE; font-weight: 600">Requisitos</h3>
 
 - Yarn
 
-## Localmente
+<h3 style="color: #AAA4EE; font-weight: 600">Localmente</h3>
 
 1. [Siga as instruções de execução do backend](./server/README.md)
 
