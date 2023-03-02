@@ -3,11 +3,10 @@ import { IAd } from "../../interfaces"
 import AdCard from "../AdCard"
 
 interface IAdListProps {
-    adList: IAd[],
-    filter?: "car" | "motocycle"
+    adList: IAd[]
 }
 
-const AdList = ({adList, filter}: IAdListProps) => {
+const AdList = ({adList}: IAdListProps) => {
     return (
         <HStack 
             spacing={8} 
@@ -19,10 +18,7 @@ const AdList = ({adList, filter}: IAdListProps) => {
               }}
         >
             {
-            filter ? 
-            adList.filter(ad => ad.vehicle.type == filter).filter(ad => ad.type == "sell").map(ad => <AdCard ad={ad} key={ad.id}/>) 
-            : 
-            adList.filter(ad => ad.type == "sell").map((ad) => <AdCard ad={ad} key={ad.id}/>)
+                adList?.map(ad => <AdCard ad={ad} key={ad.id}/>) 
             }
         </HStack>
     )

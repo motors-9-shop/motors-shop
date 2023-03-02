@@ -8,13 +8,18 @@ import { getAllAd } from "../../services"
 import Footer from "../../components/Footer"
 
 const Home = () => {
-  const [adList, setAdList] = useState<IAd[]>([])
+  const [adCarList, setAdCarList] = useState<IAd[]>([])
+  const [adMotocycleList, setAdMotocycleList] = useState<IAd[]>([])
   const [isSmallerThan720] = useMediaQuery('(max-width: 720px)')
 
   useEffect(() => {
       (async function(){
           const ads = await getAllAd()
-          setAdList(ads)
+
+          if(ads){
+            setAdCarList(ads.sell.car)
+            setAdMotocycleList(ads.sell.motocycle)
+          }
       })()
   }, [])
 
@@ -30,11 +35,11 @@ const Home = () => {
             <Stack spacing={8}>
                 <Flex gap="1rem" flexDir="column">
                     <Text as="h5" textStyle="heading-5-600">Carros</Text>
-                    <AdList adList={adList} filter="car"/>
+                    <AdList adList={adCarList}/>
                 </Flex>
                 <Flex gap="1rem" flexDir="column">
                     <Text as="h5" textStyle="heading-5-600">Motos</Text>
-                    <AdList adList={adList} filter="motocycle"/>
+                    <AdList adList={adMotocycleList}/>
                 </Flex>
             </Stack>
         </Box>
