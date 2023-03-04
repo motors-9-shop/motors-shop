@@ -85,4 +85,16 @@ export class SessionsService {
     }, 1000 * 60);
     this.schedulerRegistry.addTimeout(scheduleName, timeout);
   }
+
+  private removeRecoveryCode(id: string) {
+    this.usersRepository.update(id, { recoveryCode: null });
+  }
+
+  async resetPassword(recoveryCode: string, password: string) {
+    const { id } = await this.usersService.findOne({ recoveryCode });
+
+    recoveryCode = null;
+
+    await this.usersRepository.update(id, { password, recoveryCode });
+  }
 }
