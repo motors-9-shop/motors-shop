@@ -64,12 +64,7 @@ export class AdsService {
           description: true,
         },
       },
-      relations: {
-        user: true,
-        vehicle: {
-          images: true,
-        },
-      },
+      relations: { comments: true },
     });
 
     if (!ad) {
