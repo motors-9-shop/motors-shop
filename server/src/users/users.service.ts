@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { FindOptionsSelect, FindOptionsWhere, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -39,9 +39,13 @@ export class UsersService {
     return `This action returns all users`;
   }
 
-  async findOne(where: FindOptionsWhere<User>) {
+  async findOne(
+    where: FindOptionsWhere<User>,
+    select?: FindOptionsSelect<User>,
+  ) {
     const user = await this.usersRepository.findOne({
       where,
+      select,
       relations: {
         ads: true,
       },

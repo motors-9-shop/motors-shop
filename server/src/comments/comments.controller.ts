@@ -6,7 +6,11 @@ import {
   Param,
   Patch,
   Post,
+  SerializeOptions,
+  UseGuards,
 } from '@nestjs/common';
+import { User } from '../decorators';
+import { JwtAuthGuard } from '../guards';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 
@@ -15,8 +19,10 @@ export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
   @Post()
-  create(@Body() createCommentDto: CreateCommentDto) {
-    return this.commentsService.create(createCommentDto);
+  @UseGuards(JwtAuthGuard)
+  @SerializeOptions({ excludeExtraneousValues: true })
+  create(@Body() createCommentDto: CreateCommentDto, @User('id') id: string) {
+    return this.commentsService.create(createCommentDto, id);
   }
 
   @Get()

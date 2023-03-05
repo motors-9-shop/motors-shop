@@ -23,7 +23,10 @@ export class Comment {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.comments, { onDelete: 'SET NULL' })
+  @ManyToOne(() => User, (user) => user.comments, {
+    onDelete: 'SET NULL',
+    eager: true,
+  })
   user: User;
 
   @ManyToOne(() => Ad, (ad) => ad.comments, { onDelete: 'CASCADE' })
