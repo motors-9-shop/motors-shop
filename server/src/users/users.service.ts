@@ -43,7 +43,10 @@ export class UsersService {
     const user = await this.usersRepository.findOne({
       where,
       relations: {
-        ads: true,
+        ads: {
+          vehicle: true,
+          user: true,
+        },
       },
     });
 
