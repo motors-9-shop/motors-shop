@@ -9,6 +9,7 @@ const RoutesMain = () => {
           <Route path="profile">
             <Route path=":userId" element={<Profile />} />
             <Route index element={<Navigate to="/" />} />
+            <Route path="/login" element={<Login />} />
           </Route>
       </Routes>
   )

@@ -15,7 +15,6 @@ const Home = () => {
   useEffect(() => {
       (async function(){
             const ads = await getAllAd()
-
             if(ads){
                 setAdCarList(ads.sell.car)
                 setAdMotocycleList(ads.sell.motocycle)
