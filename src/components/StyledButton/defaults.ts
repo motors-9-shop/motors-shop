@@ -23,21 +23,23 @@ export const defaults = {
       },
       _disable: {
         bg: "brand.3",
-        color: "brand.4"
+        color: "brand.4",
+        cursor: "not-allowed",
+        pointerEvents: "none"
       }
     },
     brandOpacity: {
-      colorSchema: "brand",
+      colorScheme: "brand",
       bg: "brand.4",
       color: "brand.1",
     },
     light: {
-      colorSchema: "grey",
+      colorScheme: "grey",
       bg: "grey.10",
       color: "grey.1",
     },
     medium44: {
-      colorSchema: "grey",
+      colorScheme: "grey",
       bg: "grey.1",
       color: "grey.10",
       borderColor: "grey.0",
@@ -46,7 +48,7 @@ export const defaults = {
       },
     },
     outline: {
-        colorSchema: "grey",
+        colorScheme: "grey",
         bg: "transparent",
         color: "grey.0",
         borderColor: "grey.0",
@@ -56,7 +58,7 @@ export const defaults = {
         }
     },
     outlineBrand1: {
-      colorSchema: "brand",
+      colorScheme: "brand",
       bg: "transparent",
       color: "brand.1",
       borderColor: "brand.1",
@@ -65,7 +67,7 @@ export const defaults = {
       }
     },
     link: {
-      colorSchema: "grey",
+      colorScheme: "grey",
       bg: "transparent",
       color: "grey.0",
       _hover: {

@@ -14,6 +14,8 @@ const StyledButton = ({ variant, children, ...rest }: StyledButtonProps) => {
         colorScheme: "grey",
         bg: "grey.5",
         color: "whiteFixed",
+        cursor: "not-allowed",
+        pointerEvents: "none",
       }}
       border={"1.5px solid transparent"} 
       {...defaults[variant]} 
