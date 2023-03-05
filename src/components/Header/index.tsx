@@ -42,7 +42,7 @@ const Header = () => {
         justifyContent="space-between"
       > 
         <Box>
-          <Image src={Logo} />
+          <Image src={Logo} onClick={() => navigate("/")} cursor="pointer"/>
         </Box>
         <HStack spacing="24px" h="100%">
           {isLargerThan720 &&
