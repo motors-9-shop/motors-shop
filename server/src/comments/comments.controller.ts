@@ -2,8 +2,8 @@ import {
   Body,
   Controller,
   Delete,
-  Get,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
   SerializeOptions,
@@ -13,6 +13,7 @@ import { User } from '../decorators';
 import { JwtAuthGuard } from '../guards';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
+import { UpdateCommentDto } from './dto/update-comment.dto';
 
 @Controller('comments')
 export class CommentsController {
@@ -25,14 +26,12 @@ export class CommentsController {
     return this.commentsService.create(createCommentDto, id);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.commentsService.findOne(+id);
-  }
-
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCommentDto) {
-    return this.commentsService.update(+id, updateCommentDto);
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateCommentDto: UpdateCommentDto,
+  ) {
+    return this.commentsService.update(id, updateCommentDto);
   }
 
   @Delete(':id')

@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { AdsService } from '../ads/ads.service';
 import { UsersService } from '../users/users.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
+import { UpdateCommentDto } from './dto/update-comment.dto';
 import { Comment } from './entities/comment.entity';
 
 @Injectable()
@@ -28,11 +29,7 @@ export class CommentsService {
     return this.commentsRepository.save(commentInstance);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} comment`;
-  }
-
-  update(id: number, updateCommentDto) {
+  update(id: string, updateCommentDto: UpdateCommentDto) {
     return `This action updates a #${id} comment`;
   }
 
