@@ -31,7 +31,11 @@ export class UsersController {
 
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
-    return await this.usersService.findOne({ id });
+    return await this.usersService.findOne(
+      { id },
+      {},
+      { ads: { user: true, vehicle: true } },
+    );
   }
 
   @Patch(':id')

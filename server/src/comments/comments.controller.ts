@@ -4,9 +4,8 @@ import {
   Delete,
   Param,
   ParseUUIDPipe,
-  Patch,
   Post,
-  SerializeOptions,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { User } from '../decorators';
@@ -21,12 +20,11 @@ export class CommentsController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  @SerializeOptions({ excludeExtraneousValues: true })
   create(@Body() createCommentDto: CreateCommentDto, @User('id') id: string) {
     return this.commentsService.create(createCommentDto, id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateCommentDto: UpdateCommentDto,
@@ -35,7 +33,7 @@ export class CommentsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.commentsService.remove(+id);
+  remove(@Param('id', ParseUUIDPipe) id: string) {
+    this.commentsService.remove(id);
   }
 }

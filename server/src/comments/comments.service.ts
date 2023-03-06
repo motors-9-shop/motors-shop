@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AdsService } from '../ads/ads.service';
@@ -19,7 +19,7 @@ export class CommentsService {
   async create({ text, adId }: CreateCommentDto, id: string) {
     const user = await this.usersService.findOne(
       { id },
-      { id: true, name: true },
+      { id: true, name: true, ads: false },
     );
 
     const ad = await this.adsService.findOne({ id: adId });
@@ -29,11 +29,29 @@ export class CommentsService {
     return this.commentsRepository.save(commentInstance);
   }
 
-  update(id: string, updateCommentDto: UpdateCommentDto) {
-    return `This action updates a #${id} comment`;
+  async findOne(id: string) {
+    const comment = await this.commentsRepository.findOne({
+      where: { id },
+      select: { user: { id: true, name: true } },
+    });
+
+    if (!comment) {
+      throw new NotFoundException('comment not found');
+    }
+
+    return comment;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} comment`;
+  async update(id: string, { text }: UpdateCommentDto) {
+    const comment = await this.findOne(id);
+
+    comment.text = text;
+    return this.commentsRepository.save(comment);
+  }
+
+  async remove(id: string) {
+    const comment = await this.findOne(id);
+
+    await this.commentsRepository.delete(comment);
   }
 }

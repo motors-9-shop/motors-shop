@@ -58,17 +58,11 @@ export class AdsService {
   async findOne(where: FindOptionsWhere<Ad>) {
     const ad = await this.adRepository.findOne({
       where,
-      select: {
-        user: {
-          name: true,
-          description: true,
-        },
-      },
-      relations: { comments: true },
+      relations: { comments: true, user: true },
     });
 
     if (!ad) {
-      throw new NotFoundException();
+      throw new NotFoundException('ad not found');
     }
 
     return ad;
