@@ -1,73 +1,65 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+<h1 align="center">
+  <img src="../src/assets/logo-outline.svg" alt="Logo Motors Shop" width="400px" >
+  <span>BACK END</span>
+  <div>
+    <img src="https://img.shields.io/badge/NestJS-E0234E?style=flat-square&logo=nestjs&labelColor=101010&logoColor=E0234E" alt="Logo" />
+    <img src="https://img.shields.io/badge/Passport-34E27A?style=flat-square&logo=passport&labelColor=101010" alt="Logo" />
+    <img src="https://img.shields.io/badge/Swagger-85EA2D?style=flat-square&logo=swagger&labelColor=101010" alt="Logo" />
+    <img src="https://img.shields.io/badge/TypeORM-000?style=flat-square" alt="Logo" />
+    <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&labelColor=101010" alt="Logo" />
+  </div>
+</h1>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<br/>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Simples aplicação e-commerce de compras e vendas online entre usuários. Essa aplicação desenvolve criação, leitura, atualização e deleção de anúncios, usuários, endereços e comentários.
 
-## Description
+<h2 style="color: #5126EA; font-weight: 600">Rotas</h2>
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- <a href="#docs">
+    <strong style="color: #7076F0;">Docs</strong> - Rota de documentação do Swagger
+  </a>
+- <a href="#users">
+    <strong style="color: #7076F0;">Users</strong> - Rotas de usuário
+  </a>
+- <a href="#sessions">
+      <strong style="color: #7076F0;">Sessions</strong> - Rotas de sessão
+  </a>
+- <a href="#ads">
+    <strong style="color: #7076F0;">Ads</strong> - Rotas de anúncios
+  </a>
+- <a href="#comments">
+    <strong style="color: #7076F0;">Comments</strong> - Rotas de comentários
+  </a>
 
-## Installation
+<h3 id="docs" style="color: #AAA4EE; font-weight: 500">Docs</h3>
 
-```bash
-$ yarn install
-```
+<h4 style="color: #FFE5E5; font-weight: 500">GET /</h4>
 
-## Running the app
+<h3 id="users" style="color: #AAA4EE; font-weight: 500">Users</h3>
 
-```bash
-# development
-$ yarn run start
+<h4 style="color: #FFE5E5; font-weight: 500">GET /</h4>
 
-# watch mode
-$ yarn run start:dev
+<h3 id="sessions" style="color: #AAA4EE; font-weight: 500">Sessions</h3>
 
-# production mode
-$ yarn run start:prod
-```
+<h4 style="color: #FFE5E5; font-weight: 500">GET /</h4>
 
-## Test
+<h3 id="ads" style="color: #AAA4EE; font-weight: 500">Ads</h3>
 
-```bash
-# unit tests
-$ yarn run test
+<h4 style="color: #FFE5E5; font-weight: 500">GET /</h4>
 
-# e2e tests
-$ yarn run test:e2e
+<h3 id="comments" style="color: #AAA4EE; font-weight: 500">Comments</h3>
 
-# test coverage
-$ yarn run test:cov
-```
+<h4 style="color: #FFE5E5; font-weight: 500">GET /</h4>
 
-## Support
+<h2 style="color: #5126EA; font-weight: 600">Clonando</h2>
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Consulte o [README na raíz do projeto (motors-shop)](../README.md)
 
-## Stay in touch
+<h2 style="color: #5126EA; font-weight: 600">Executando</h2>
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+<h3 style="color: #AAA4EE; font-weight: 500">Requisitos</h3>
 
-## License
+- Yarn
 
-Nest is [MIT licensed](LICENSE).
+<h3 style="color: #AAA4EE; font-weight: 500">Localmente</h3>
