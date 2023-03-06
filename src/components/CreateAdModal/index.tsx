@@ -55,9 +55,9 @@ const CreateAdModal = ({ isOpen, onClose }: CreateAdModalProps) => {
         values.vehicle.year = Number(values.vehicle.year)
         values.vehicle.km = Number(values.vehicle.km)
 
-        console.log(values)
-
         createUserAd(values)
+
+        onClose()
 
     }
 

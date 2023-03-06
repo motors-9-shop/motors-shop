@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom"
 import Home from "../pages/Home"
 import Profile from "../pages/Profile"
+import Login from "../pages/Login";
 
 const RoutesMain = () => {
   return (
@@ -9,8 +10,8 @@ const RoutesMain = () => {
           <Route path="profile">
             <Route path=":userId" element={<Profile />} />
             <Route index element={<Navigate to="/" />} />
-            <Route path="/login" element={<Login />} />
           </Route>
+          <Route path="/login" element={<Login />} />
       </Routes>
   )
 }
