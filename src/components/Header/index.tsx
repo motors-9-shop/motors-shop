@@ -14,9 +14,12 @@ import {
 } from "@chakra-ui/react";
 import { useMediaQuery } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { useState } from "react";
+import { createContext, useState } from "react";
 import Logo from "../../assets/logo.svg";
 import UserCard from "../UserCard";
+import { ModalEditProfile } from "../FormEditProfile";
+
+export const HeaderContext = createContext({});
 
 const Header = () => {
   const [isLargerThan720] = useMediaQuery("(min-width: 720px)");
@@ -24,6 +27,7 @@ const Header = () => {
   const [user, setUser] = useState({
     name: "Wilson Mesquita",
   });
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Center
@@ -62,7 +66,9 @@ const Header = () => {
                 <Menu>
                   <MenuButton as={UserCard} />
                   <MenuList textStyle="body-1-400" color="grey.2">
-                    <MenuItem>Editar Perfil</MenuItem>
+                    <MenuItem onClick={() => setIsOpen(!isOpen)}>
+                      Editar Perfil
+                    </MenuItem>
                     <MenuItem>Editar Endereço</MenuItem>
                     <MenuItem>Minhas Compras</MenuItem>
                     <MenuItem>Sair</MenuItem>
@@ -104,6 +110,7 @@ const Header = () => {
           )}
         </HStack>
       </Box>
+      <ModalEditProfile isOpen={isOpen} setIsOpen={setIsOpen} />
     </Center>
   );
 };
