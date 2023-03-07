@@ -13,7 +13,6 @@ const AdDetailPage = () => {
     api
       .get(`/ad/${adId}`, {})
       .then((res) => {
-        console.log(res);
         setAdvDetail(res.data);
       })
       .catch((err) => {

@@ -18,6 +18,7 @@ import { createContext, useState } from "react";
 import Logo from "../../assets/logo.svg";
 import UserCard from "../UserCard";
 import { ModalEditProfile } from "../FormEditProfile";
+import { ModalEditAddress } from "../FormEditAddress";
 
 export const HeaderContext = createContext({});
 
@@ -28,6 +29,7 @@ const Header = () => {
     name: "Wilson Mesquita",
   });
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenAddress, setIsOpenAddress] = useState(false);
 
   return (
     <Center
@@ -69,7 +71,9 @@ const Header = () => {
                     <MenuItem onClick={() => setIsOpen(!isOpen)}>
                       Editar Perfil
                     </MenuItem>
-                    <MenuItem>Editar Endereço</MenuItem>
+                    <MenuItem onClick={() => setIsOpenAddress(!isOpenAddress)}>
+                      Editar Endereço
+                    </MenuItem>
                     <MenuItem>Minhas Compras</MenuItem>
                     <MenuItem>Sair</MenuItem>
                   </MenuList>
@@ -111,6 +115,10 @@ const Header = () => {
         </HStack>
       </Box>
       <ModalEditProfile isOpen={isOpen} setIsOpen={setIsOpen} />
+      <ModalEditAddress
+        isOpenAddress={isOpenAddress}
+        setIsOpenAddress={setIsOpenAddress}
+      />
     </Center>
   );
 };

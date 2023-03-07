@@ -14,11 +14,14 @@ import {
 import React from "react";
 
 interface IModalProf {
-  isOpen: boolean;
-  setIsOpen: any;
+  isOpenAddress: boolean;
+  setIsOpenAddress: any;
 }
 
-export const ModalEditProfile = ({ isOpen, setIsOpen }: IModalProf) => {
+export const ModalEditAddress = ({
+  isOpenAddress,
+  setIsOpenAddress,
+}: IModalProf) => {
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
 
@@ -27,27 +30,27 @@ export const ModalEditProfile = ({ isOpen, setIsOpen }: IModalProf) => {
       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={() => setIsOpen(!isOpen)}
+        isOpen={isOpenAddress}
+        onClose={() => setIsOpenAddress(!isOpenAddress)}
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Editar Perfil</ModalHeader>
+          <ModalHeader>Editar Endereço</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
-              <FormLabel>Nome</FormLabel>
-              <Input ref={initialRef} placeholder="Nome" />
+              <FormLabel>Cidade</FormLabel>
+              <Input ref={initialRef} placeholder="Cidade" />
             </FormControl>
 
             <FormControl mt={4}>
-              <FormLabel>Senha</FormLabel>
-              <Input placeholder="Senha" />
+              <FormLabel>Estado</FormLabel>
+              <Input placeholder="Estado" />
             </FormControl>
 
             <FormControl mt={4}>
-              <FormLabel>Data de nascimento</FormLabel>
-              <Input placeholder="Data de nascimento" />
+              <FormLabel>Rua</FormLabel>
+              <Input placeholder="Rua" />
             </FormControl>
 
             <FormControl mt={4}>
@@ -56,13 +59,18 @@ export const ModalEditProfile = ({ isOpen, setIsOpen }: IModalProf) => {
             </FormControl>
 
             <FormControl mt={4}>
-              <FormLabel>Telefone</FormLabel>
-              <Input placeholder="Telefone" />
+              <FormLabel>Número</FormLabel>
+              <Input placeholder="Número" />
             </FormControl>
 
             <FormControl mt={4}>
-              <FormLabel>Descrição</FormLabel>
-              <Input placeholder="Descrição" />
+              <FormLabel>Complemento</FormLabel>
+              <Input placeholder="Complemento" />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>CEP</FormLabel>
+              <Input placeholder="CEP" />
             </FormControl>
           </ModalBody>
 
@@ -70,7 +78,9 @@ export const ModalEditProfile = ({ isOpen, setIsOpen }: IModalProf) => {
             <Button colorScheme="blue" mr={3}>
               Salvar
             </Button>
-            <Button onClick={() => setIsOpen(!isOpen)}>Cancelar</Button>
+            <Button onClick={() => setIsOpenAddress(!isOpenAddress)}>
+              Cancelar
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
