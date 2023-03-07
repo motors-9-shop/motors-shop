@@ -45,6 +45,6 @@ export class Vehicle {
     cascade: true,
     eager: true,
   })
-  @Transform(({ value }) => value.map(({ url }) => url))
+  @Transform(({ value }) => value?.map(({ url }) => url))
   images: Image[];
 }
