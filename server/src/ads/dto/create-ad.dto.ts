@@ -31,7 +31,11 @@ export class CreateAdDto {
     }
 
     if (isNumberString(value) || typeof value === 'number') {
-      value = (+value).toLocaleString('pt-BR');
+      value = (+value).toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+      console.log(value);
     }
 
     return value;
