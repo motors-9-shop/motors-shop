@@ -1,9 +1,10 @@
-import { Box, Button, ButtonGroup, Card, CardBody, CardHeader, Image, Text } from "@chakra-ui/react"
+import { Box, Button, ButtonGroup, Card, CardBody, CardHeader, Image, Text, useDisclosure } from "@chakra-ui/react"
 import { useContext } from "react"
 import { useNavigate } from "react-router"
 import { UserContext } from "../../contexts/userContext"
 import { IAd } from "../../interfaces"
 import AdvertiserAvatar from "../AdvertiserAvatar"
+import EditAdModal from "../EditAdModal"
 
 interface IAdCardProps {
     ad: IAd
@@ -11,6 +12,8 @@ interface IAdCardProps {
 }   
 
 const AdCard = ({ad, badge}: IAdCardProps) => {
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
     const { user } = useContext(UserContext)
 
     const isOwner = user?.id === ad.user.id
@@ -19,13 +22,14 @@ const AdCard = ({ad, badge}: IAdCardProps) => {
 
     return (
         <Card 
-            minW="312px" 
+            minW="312px"
+            maxW="312px" 
             variant="unstyled" 
             gap="16px"
             cursor="pointer"
             bgColor="transparent"
         >
-            <CardHeader onClick={() => navigate(`/ads/${ad.id}`)}>
+            <CardHeader onClick={() => navigate(`/ad/${ad.id}`)}>
                 <Image
                     src={ad.vehicle.bannerUrl}
                     alt='Green double couch with wooden legs'
@@ -48,7 +52,8 @@ const AdCard = ({ad, badge}: IAdCardProps) => {
             </CardHeader>
             <CardBody gap="16px" display="flex" flexDir="column">
                 <Text 
-                    noOfLines={2} 
+                    h="40px"
+                    noOfLines={2}
                     textStyle="body-2-400" 
                     color="grey.2"
                 >
@@ -64,8 +69,9 @@ const AdCard = ({ad, badge}: IAdCardProps) => {
                 </Box>
                 { isOwner && 
                 <ButtonGroup textStyle="button-big-text" variant="outline">
-                    <Button>Editar</Button>
+                    <Button onClick={onOpen}>Editar</Button>
                     <Button>Ver como</Button>    
+                    <EditAdModal isOpen={isOpen} onClose={onClose} ad={ad}/>
                 </ButtonGroup>}
             </CardBody>
         </Card>

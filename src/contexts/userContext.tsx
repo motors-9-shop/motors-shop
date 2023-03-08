@@ -1,13 +1,11 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CreateAdValues } from "../components/CreateAdModal";
 import { IAd, IUser } from "../interfaces";
 import { createAd, getProfileByToken } from "../services";
 
 interface IUserContextProps {
     user: IUser | null
     logout: () => void
-    createUserAd: (data: CreateAdValues) => void
 }
 
 export const UserContext = createContext<IUserContextProps>({} as IUserContextProps)
@@ -29,16 +27,6 @@ const UserProvider = ({children}: IUserProviderProps) => {
         })()
     }, [])
 
-    const createUserAd = async (data: CreateAdValues) => {
-        const newAd = await createAd(data)
-
-        if(newAd){
-            const newUser = {...user}
-    
-            newUser.ads?.push(newAd)
-        }
-    }
-
     const logout = () => {
         localStorage.removeItem("@kenzie-motors:token")
         setUser(null)
@@ -46,7 +34,7 @@ const UserProvider = ({children}: IUserProviderProps) => {
     }
 
     return (
-        <UserContext.Provider value={{user, logout, createUserAd}}>
+        <UserContext.Provider value={{user, logout}}>
             {children}
         </UserContext.Provider>
     )

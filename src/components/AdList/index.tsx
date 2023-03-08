@@ -28,6 +28,9 @@ const AdList = ({adList, title, badge}: IAdListProps) => {
                 }}
             >
                 {
+                    adList.length === 0  ? 
+                    <Text textStyle="heading-6-600">Sem anúncios de {title} disponíveis</Text>
+                    : 
                     adList?.map(ad => <AdCard ad={ad} key={ad.id} badge={badge} />) 
                 }
             </HStack>

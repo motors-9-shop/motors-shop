@@ -1,24 +1,24 @@
-import { FC } from "react";
-import { FormControl, FormLabel, Input, FormErrorMessage } from "@chakra-ui/react";
+import { FormControl, FormLabel, Input, FormErrorMessage, InputProps } from "@chakra-ui/react";
+import { useState } from "react";
 import { Control, FieldError, useController } from "react-hook-form";
-import { styleGuide } from "../../styles/styleGuide";
 
-interface InputFieldProps {
+interface InputFieldProps extends InputProps {
   label: string
   name: string
   control: Control
   rules?: Record<string, unknown>
+  defaultValue?: string | number
   [key: string]: unknown
   type?: string
   placeholder?: string
 }
 
-const InputField = ({ label, name, control, rules, type="text", placeholder, ...rest }: InputFieldProps) => {
-    const { field, fieldState} = useController({
+const InputField = ({ label, name, control, rules, type="text", placeholder, onChange, defaultValue = "",...rest }: InputFieldProps) => {
+    const { field, fieldState, formState} = useController({
         name,
         control,
         rules,
-        defaultValue: ""
+        defaultValue
     });
 
     const { invalid, error } = fieldState;
@@ -29,7 +29,7 @@ const InputField = ({ label, name, control, rules, type="text", placeholder, ...
         <Input 
             {...field}
             type={type} 
-            value={field.value} 
+            value={field.value}
             id={name} 
             placeholder={placeholder}
             sx={{

@@ -1,5 +1,5 @@
 import { api } from ".";
-import { CreateAdValues } from "../components/CreateAdModal";
+import { CreateAdValues } from "../contexts/profileContext";
 import { IAd } from "../interfaces";
 
 export const createAd = async (adCreateData: CreateAdValues) => {

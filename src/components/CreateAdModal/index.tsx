@@ -1,8 +1,10 @@
-import { Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, RadioGroup, Text, Textarea, useMediaQuery, useRadioGroup, VStack } from "@chakra-ui/react"
+import { HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, RadioGroup, Text, Textarea, useMediaQuery, VStack } from "@chakra-ui/react"
 import { useContext, useState } from "react"
-import { useForm } from "react-hook-form"
+import { useForm, Controller } from "react-hook-form"
+import { ProfileContext } from "../../contexts/profileContext"
 import { UserContext } from "../../contexts/userContext"
 import InputField from "../InputField"
+import MoneyInput from "../MoneyInput"
 import RadioButton from "../RadioButton"
 import StyledButton from "../StyledButton"
 
@@ -11,32 +13,18 @@ interface CreateAdModalProps {
     onClose: () => void
 }
 
-export interface CreateAdValues {
-    type: "sell" | "auction"
-    price: number
-    description: string,
-    vehicle: {
-        name: string
-        km: number
-        year: number
-        type: "car" | "motocycle"
-        bannerUrl: string
-        images?: string[]
-    }
-}
-
 const CreateAdModal = ({ isOpen, onClose }: CreateAdModalProps) => {
     const [inputImagesCount, setInputImagesCount] = useState<null[]>([])
     const [isSmallerThan420] = useMediaQuery('(max-width: 420px)')    
     const { handleSubmit, control, register, watch} = useForm()
-    const { createUserAd } = useContext(UserContext)
+    const { profileCreateAd } = useContext(ProfileContext)
 
-    const requiredFields = ["type", "vehicle.name", "vehicle.year", "vehicle.km", "price", "description", "vehicle.bannerUrl"]
+    const requiredFields = ["vehicle.name", "vehicle.year", "price", "description", "vehicle.bannerUrl"]
 
-    const allRequiredFieldsFilled = requiredFields.every((field) =>
-        Boolean(watch(field))
-    );
-
+    const allRequiredFieldsFilled = requiredFields.every((field) =>{
+        return Boolean(watch(field))
+    });
+    
     const onSubmit = async (values: any) => {
         const remove = () => {
             values.vehicle.images?.forEach((image:any, index:any, array:any) => {
@@ -55,7 +43,7 @@ const CreateAdModal = ({ isOpen, onClose }: CreateAdModalProps) => {
         values.vehicle.year = Number(values.vehicle.year)
         values.vehicle.km = Number(values.vehicle.km)
 
-        createUserAd(values)
+        profileCreateAd(values)
 
         onClose()
 
@@ -91,14 +79,14 @@ const CreateAdModal = ({ isOpen, onClose }: CreateAdModalProps) => {
                         </RadioGroup>
                         <Text textStyle="body-2-500" alignSelf="start">Infomações do veículo</Text>
                         <InputField label="Título" control={control} name="vehicle.name" placeholder="Digitar título"/>
-                        <HStack>
+                        <HStack spacing="16px">
                             <InputField label="Ano" control={control} name="vehicle.year" placeholder="Digitar ano" type="number" />
                             <InputField label="Quilometragem" control={control} name="vehicle.km" placeholder="0" type="number" />
-                            {!isSmallerThan420 && <InputField label="Digitar preço" control={control} name="price" placeholder="Digitar preço" type="number" />}
+                            {!isSmallerThan420 && <MoneyInput control={control} name="price" label="Preço" defaultValue={"R$ 100,00"} />}
                         </HStack>
-                        { isSmallerThan420 && <InputField label="Digitar preço" control={control} name="price" placeholder="Digitar preço" type="number" />}
+                        {isSmallerThan420 && <MoneyInput control={control} name="price" label="Preço"/>}
                         <VStack spacing="8px">
-                            <Text alignSelf="start" textStyle="input-label">Descrição</Text>
+                            <Text alignSelf="start" textStyle="input-label">Descrição</Text>    
                             <Textarea {...register("description")} placeholder="Digitar descrição"/>
                         </VStack>
                         <RadioGroup gap="18px" display="flex" flexDir="column">
