@@ -3,6 +3,19 @@ import { Box, Button, Center, Heading, Text, useMediaQuery } from "@chakra-ui/re
 const FilterBy = () => {
     const [isSmallerThan720] = useMediaQuery('(max-width: 720px)')
 
+    const scrollToCars = () => {
+        const carList = document.getElementById('cars')
+
+        if(carList)
+        carList.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+    }
+
+    const scrollToMotocycles = () => {
+        const motocycleList = document.getElementById('motocycles')
+
+        if(motocycleList)
+        motocycleList.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+    }
 
     return (
         <Center 
@@ -19,8 +32,8 @@ const FilterBy = () => {
                 Um ambiente feito para você explorar o seu melhor   
             </Text>
             <Center flexDir={isSmallerThan720 ? "column" : "row"} gap="20px" color="grey.10" w="100%">
-                <Button variant="outline" w={isSmallerThan720 ? "100%" : "182px"}>Carros</Button>
-                <Button variant="outline" w={isSmallerThan720 ? "100%" : "182px"}>Motos</Button>
+                <Button variant="outline" w={isSmallerThan720 ? "100%" : "182px"} onClick={scrollToCars}>Carros</Button>
+                <Button variant="outline" w={isSmallerThan720 ? "100%" : "182px"} onClick={scrollToMotocycles}>Motos</Button>
             </Center>
         </Center>
     )
