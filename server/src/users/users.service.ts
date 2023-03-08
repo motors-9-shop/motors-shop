@@ -51,8 +51,13 @@ export class UsersService {
   ) {
     const user = await this.usersRepository.findOne({
       where,
-      select,
-      relations,
+      relations: {
+        ads: {
+          vehicle: true,
+          user: true,
+        },
+      },
+
     });
 
     if (!user) {

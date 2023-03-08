@@ -4,12 +4,18 @@ import App from "./App";
 import { ChakraProvider } from "@chakra-ui/react";
 import { styleGuide } from "./styles/styleGuide";
 import { BrowserRouter } from "react-router-dom";
+import UserProvider from "./contexts/userContext";
+import ProfileProvider from "./contexts/profileContext";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <ChakraProvider theme={styleGuide}>
-        <App />
+        <UserProvider>
+          <ProfileProvider>
+            <App />
+          </ProfileProvider>
+        </UserProvider> 
       </ChakraProvider>
     </BrowserRouter>
   </React.StrictMode>

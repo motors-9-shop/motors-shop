@@ -14,16 +14,18 @@ import {
 } from "@chakra-ui/react";
 import { useMediaQuery } from '@chakra-ui/react'
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Logo from "../../assets/logo.svg"
 import UserCard from "../UserCard";
+import { UserContext } from "../../contexts/userContext";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isLargerThan720] = useMediaQuery('(min-width: 720px)')
   const [isSmallerThan720] = useMediaQuery('(max-width: 720px)')
-  const [user, setUser] = useState({
-    name: "Wilson Mesquita",
-  })
+  const { user, logout } = useContext(UserContext)
+
+  const navigate = useNavigate()
 
   return (  
     <Center 
@@ -40,7 +42,7 @@ const Header = () => {
         justifyContent="space-between"
       > 
         <Box>
-          <Image src={Logo} />
+          <Image src={Logo} onClick={() => navigate("/")} cursor="pointer"/>
         </Box>
         <HStack spacing="24px" h="100%">
           {isLargerThan720 &&
@@ -61,20 +63,20 @@ const Header = () => {
             <>
               {user ?
               <Menu>
-                <MenuButton 
-                  as={UserCard}
-                />
+                <MenuButton>
+                  <UserCard username={user?.name} />
+                </MenuButton>
                 <MenuList textStyle="body-1-400" color="grey.2">
                   <MenuItem>Editar Perfil</MenuItem>
                   <MenuItem>Editar Endereço</MenuItem>
                   <MenuItem>Minhas Compras</MenuItem>
-                  <MenuItem>Sair</MenuItem>
+                  <MenuItem onClick={() => logout()}>Sair</MenuItem>
                 </MenuList>
               </Menu>
                 :
                 <>
-                <Button variant="ghost" textStyle="body-1-600">Fazer Login</Button>
-                <Button variant="outline" textStyle="button-big-text">Cadastrar</Button>
+                <Button variant="ghost" textStyle="body-1-600" onClick={() => navigate("/login")}>Fazer Login</Button>
+                <Button variant="outline" textStyle="button-big-text" >Cadastrar</Button>
                 </>
               }
             </>
@@ -92,10 +94,15 @@ const Header = () => {
                 <MenuItem>Leilão</MenuItem>
                 { isSmallerThan720 &&
                 <>
-                  <MenuItem borderTop="1px solid var(--chakra-colors-grey-4)">Fazer Login</MenuItem>
-                  <MenuItem>
-                    Cadastrar
-                  </MenuItem>
+                  {
+                    user ? 
+                      <MenuItem onClick={() => logout()}>Sair</MenuItem>
+                    :
+                    <>
+                      <MenuItem borderTop="1px solid var(--chakra-colors-grey-4)" onClick={() => navigate("/login")}>Fazer Login</MenuItem>
+                      <MenuItem onClick={() => navigate("/register")}>Cadastrar</MenuItem>
+                    </>
+                  }
                 </>
                 }
               </MenuList>
