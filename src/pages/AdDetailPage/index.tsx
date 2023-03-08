@@ -7,13 +7,13 @@ import { useParams } from "react-router-dom";
 
 const AdDetailPage = () => {
   let { adId } = useParams();
-  const [advDetail, setAdvDetail] = useState();
+  const [adDetail, setAdDetail] = useState();
 
   useEffect(() => {
     api
       .get(`/ad/${adId}`, {})
       .then((res) => {
-        setAdvDetail(res.data);
+        setAdDetail(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -27,16 +27,14 @@ const AdDetailPage = () => {
         <SectionLeft>
           <div className="div-car-geral">
             <div className="div-car">
-              <img src={advDetail} alt="" className="img-car" />
+              <img src={adDetail} alt="" className="img-car" />
             </div>
             <div className="div-info-car">
-              <h1>
-                Mercedes Benz A 200 CGI ADVANCE SEDAN Mercedes Benz A 200{" "}
-              </h1>
+              <h1>{adDetail.vehicle.name}</h1>
               <div className="div-info-car-infos">
-                <p>2013</p>
-                <p className="p-km">0 KM</p>
-                <p className="p-price">R$ 00.000,00</p>
+                <p>{adDetail.vehicle.year}</p>
+                <p className="p-km">{adDetail.vehicle.km}</p>
+                <p className="p-price">{adDetail.price}</p>
               </div>
               <Button
                 marginTop={"15px"}
@@ -49,35 +47,20 @@ const AdDetailPage = () => {
             </div>
             <div className="div-desc">
               <h2>Descrição</h2>
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book.
-              </p>
+              <p>{adDetail.description}</p>
             </div>
           </div>
           <div className="div-geral-photo-car">
             <div className="div-photo-car">
               <p className="p-photo">Fotos</p>
               <ul>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
+                <li>{adDetail.vehicle.images}</li>
               </ul>
             </div>
             <div className="div-user">
-              <img src={advDetail} alt="" className="img-user" />
-              <p className="p-name">Samuel Leão</p>
-              <p className="p-desc-user">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book.
-              </p>
+              <img src={adDetail.user.photo} alt="" className="img-user" />
+              <p className="p-name">{adDetail.user.name}</p>
+              <p className="p-desc-user">{adDetail.user.description}</p>
               <Button backgroundColor={"grey.0"} color={"grey.10"}>
                 Ver todos anuncios
               </Button>
@@ -88,46 +71,18 @@ const AdDetailPage = () => {
           <div className="div-comments">
             <h2>Comentários</h2>
             <ul>
-              <li>
-                <p className="p-name-li">
-                  Julia Lima <span> há 3 dias</span>
-                </p>
-                <p>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book.
-                </p>
-              </li>
-              <li>
-                <p className="p-name-li">
-                  Julia Lima <span> há 3 dias</span>
-                </p>
-                <p>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book.
-                </p>
-              </li>
-              <li>
-                <p className="p-name-li">
-                  Julia Lima <span> há 3 dias</span>
-                </p>
-                <p>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book.
-                </p>
-              </li>
+              {adDetail.comments?.map((ad) => (
+                <li>
+                  <p className="p-name-li">
+                    {ad.user.name} <span> há 3 dias</span>
+                  </p>
+                  <p>{ad.text}</p>
+                </li>
+              ))}
             </ul>
           </div>
           <div className="div-user-comments">
-            <p>Samuel Leão</p>
+            <p>{adDetail.user.name}</p>
             <textarea
               name=""
               id=""
@@ -146,7 +101,6 @@ const AdDetailPage = () => {
           </div>
         </SectionRigth>
       </Main>
-      <footer>Fazer o component footer</footer>
     </>
   );
 };
