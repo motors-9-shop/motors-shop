@@ -38,6 +38,7 @@ export const styleGuide = extendTheme({
       9: "#F8F9FA",
       10: "#FDFDFD",
     },
+    whiteFixed: "#FFFFFF",
     feedback: {
       alert: {
         1: "#CD2B31",
