@@ -10,5 +10,6 @@ import { Vehicle } from './entities/vehicle.entity';
   imports: [TypeOrmModule.forFeature([Ad, Image, Vehicle])],
   controllers: [AdsController],
   providers: [AdsService],
+  exports: [AdsService, TypeOrmModule],
 })
 export class AdsModule {}
