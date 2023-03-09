@@ -10,7 +10,7 @@ const MainRoutes = () => {
         <Route index element={<Navigate to="/" />} />
         <Route path=":adId" element={<AdDetailPage />} />
       </Route>
-      <Route path="signup" element={<RegisterPage />} />
+      <Route path="register" element={<RegisterPage />} />
       <Route path="/" element={<Home />} />
     </Routes>
   );
