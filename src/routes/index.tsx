@@ -13,7 +13,7 @@ const MainRoutes = () => {
         <Route index element={<Navigate to="/" />} />
         <Route path=":adId" element={<AdDetailPage />} />
       </Route>
-      <Route path="register" element={<RegisterPage />} />
+      <Route path="signup" element={<RegisterPage />} />
       <Route path="/" element={<Home />} />
       <Route path="profile">
         <Route path=":userId" element={<Profile />} />
