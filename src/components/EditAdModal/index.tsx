@@ -26,8 +26,6 @@ const EditAdModal = ({ isOpen, onClose, ad }: EditAdModal) => {
         data.vehicle.year = Number(data.vehicle.year)
         data.price = data.price ? data.price : ad.price
 
-        console.log(data)
-
         profileUpdateAd(ad.id, data)
     }
 

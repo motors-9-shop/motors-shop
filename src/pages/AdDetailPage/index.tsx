@@ -1,4 +1,4 @@
-import { Avatar } from "@chakra-ui/react";
+import { Avatar, Text } from "@chakra-ui/react";
 import Header from "../../components/Header";
 import { Main, SectionLeft, SectionRigth } from "./style";
 import { useContext, useEffect, useState } from "react";
@@ -15,27 +15,32 @@ const AdDetailPage = () => {
   const [ad, setAd] = useState<IAd | null>(null);
   const { user } = useContext(UserContext)
   const [ commentValue, setCommentValue] = useState("")
+  const [ refresh, setRefresh] = useState(true)
 
-  const submitComment = () => {
-    const data = {
+  const submitComment = async () => {
+    api.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem("@kenzie-motors:token")}`
+
+    const reqData = {
       text: commentValue,
       adId: ad?.id
     }
 
-    api.post("/comments", data)
+    setRefresh(!refresh)
+
+    const { data } = await api.post("/comments", reqData)
   }
 
   useEffect(() => {
     api
       .get(`/ads/${adId}`, {})
       .then((res) => {
-        console.log(res);
+        (res);
         setAd(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        (err);
       });
-  }, []);
+  }, [refresh]);
 
   const navigate = useNavigate()
 
@@ -77,12 +82,12 @@ const AdDetailPage = () => {
             <div className="div-photo-car">
               <p className="p-photo">Fotos</p>
               <ul>
-                {ad.vehicle.images.map(image => <li key={image.id}><img src={image.url} alt="" /></li>)}
+                {ad.vehicle.images.map((image, index) => <li key={index}><img src={image}/></li>)}
               </ul>
             </div>
             <div className="div-user">
               <Avatar name={ad.user.name} w="104px" h="104px"/>
-              <p className="p-name">{ad.user.name}</p>
+              <p className="p-name">{ad.user.name}</p>  
               <p className="p-desc-user">
                 {ad.user.description}
               </p>
@@ -99,9 +104,9 @@ const AdDetailPage = () => {
               {ad.comments.map(comment => {
                 return (
                   <li key={comment.id}>
-                    <p className="p-name-li">
-                      <UserCard username={comment.user.name} /> <span>No mesmo dia</span>
-                    </p>
+                    <div className="p-name-li" style={{display: "flex", gap: "2rem"}}>
+                      <UserCard username={comment.user.name} /> <Text textStyle="body-2-400" color="grey.2" fontSize="12px">No mesmo dia</Text>
+                    </div>
                     <p>
                       {comment.text}
                     </p>

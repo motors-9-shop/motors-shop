@@ -13,7 +13,10 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { IUser } from "../../interfaces";
+import { IAddress } from "../../interfaces";
+import { useContext } from "react" 
+import { UserContext } from "../../contexts/userContext";
+import { api } from "../../services";
 
 interface IModalProf {
   isOpenAddress: boolean;
@@ -36,24 +39,28 @@ export const ModalEditAddress = ({
 }: IModalProf) => {
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
+  const { user } = useContext(UserContext);
 
-  const { handleSubmit, register } = useForm<IUser>();
+  const { handleSubmit, register } = useForm<IAddress>({
+    resolver: async (data) => {
 
-  const EditAddress = (data: IAddress) => {
-    api
-      .patch(
-        `/users/${userId}`,
-        {
-          address: data,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
-      .then((res) => {})
-      .catch((err) => {
-        console.log(err);
-      });
+      (data.address['state'])
+      Object.keys(data.address).forEach((key) => data.address[key] === "" && delete data.address[key]);
+    
+      return {
+        values: data,
+        errors: {},
+      };
+    },
+  });
+
+  const EditAddress = async (reqData: IAddress<Partial>) => {    
+    reqData.address.number = Number(reqData.address.number)
+    
+    const req = await api.patch(`/users/${user.id}`, reqData)
+
+    console.log()
+
   };
 
   return (
@@ -69,56 +76,50 @@ export const ModalEditAddress = ({
           <ModalHeader>Editar Endereço</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <form onSubmit={handleSubmit(register)}>
+            <form onSubmit={handleSubmit(EditAddress)}>
               <FormControl>
                 <FormLabel>Cidade</FormLabel>
                 <Input
                   ref={initialRef}
-                  placeholder="Cidade"
-                  {...register("city")}
+                  placeholder={user?.address.city}
+                  {...register("address.city")}
                 />
               </FormControl>
 
               <FormControl mt={4}>
                 <FormLabel>Estado</FormLabel>
-                <Input placeholder="Estado" {...register("state")} />
+                <Input placeholder={user?.address.state} {...register("address.state")} />
               </FormControl>
 
               <FormControl mt={4}>
                 <FormLabel>Rua</FormLabel>
-                <Input placeholder="Rua" {...register("street")} />
-              </FormControl>
-
-              <FormControl mt={4}>
-                <FormLabel>E-mail</FormLabel>
-                <Input placeholder="E-mail" {...register("email")} />
+                <Input placeholder={user?.address.street} {...register("address.street")} />
               </FormControl>
 
               <FormControl mt={4}>
                 <FormLabel>Número</FormLabel>
-                <Input placeholder="Número" {...register("number")} />
+                <Input placeholder={String(user?.address.number)} {...register("address.number")} />
               </FormControl>
 
               <FormControl mt={4}>
                 <FormLabel>Complemento</FormLabel>
-                <Input placeholder="Complemento" {...register("complement")} />
+                <Input placeholder={user?.address.complement} {...register("address.complement")} />
               </FormControl>
 
               <FormControl mt={4}>
                 <FormLabel>CEP</FormLabel>
-                <Input placeholder="CEP" {...register("cep")} />
+                <Input placeholder={user?.address.cep} {...register("address.cep")} />
               </FormControl>
+            <ModalFooter>
+              <Button colorScheme="blue" mr={3} type="submit">
+                Salvar
+              </Button>
+              <Button onClick={() => setIsOpenAddress(!isOpenAddress)}>
+                Cancelar
+              </Button>
+            </ModalFooter>
             </form>
           </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={() => EditAddress()}>
-              Salvar
-            </Button>
-            <Button onClick={() => setIsOpenAddress(!isOpenAddress)}>
-              Cancelar
-            </Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

@@ -35,7 +35,7 @@ export class CreateAdDto {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       });
-      console.log(value);
+      (value);
     }
 
     return value;

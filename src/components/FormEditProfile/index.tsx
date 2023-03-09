@@ -15,6 +15,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { IUser } from "../../interfaces";
 import { api } from "../../services";
+import { useContext } from "react" 
+import { UserContext } from "../../contexts/userContext";
 
 interface IModalProf {
   isOpen: boolean;
@@ -24,18 +26,20 @@ interface IModalProf {
 export const ModalEditProfile = ({ isOpen, setIsOpen }: IModalProf) => {
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
+  const { user } = useContext(UserContext);
 
-  const { handleSubmit, register } = useForm<IUser>();
+  const { handleSubmit, register } = useForm<IUser>({
+    resolver: async (data) => {
+      Object.keys(data).forEach((key) => data[key] === "" && delete data[key]);
+      return {
+        values: data,
+        errors: {},
+      };
+    },
+  });
 
-  const EditProfile = (data: IUser) => {
-    api
-      .patch(`/users/${userId}`, data, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {})
-      .catch((err) => {
-        console.log(err);
-      });
+  const EditProfile = async (reqData: IUser<Partial>) => {
+    const req = await api.patch(`/users/${user.id}`, reqData)
   };
 
   return (
@@ -51,52 +55,52 @@ export const ModalEditProfile = ({ isOpen, setIsOpen }: IModalProf) => {
           <ModalHeader>Editar Perfil</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <form onSubmit={handleSubmit(register)}>
+            <form onSubmit={handleSubmit(EditProfile)}>
               <FormControl>
                 <FormLabel>Nome</FormLabel>
                 <Input
                   ref={initialRef}
-                  placeholder="Nome"
+                  placeholder={user?.name}
                   {...register("name")}
                 />
               </FormControl>
 
               <FormControl mt={4}>
-                <FormLabel>Senha</FormLabel>
-                <Input placeholder="Senha" {...register("password")} />
+                <FormLabel>CPF</FormLabel>
+                <Input placeholder={user?.cpf} {...register("cpf")} />
               </FormControl>
 
               <FormControl mt={4}>
                 <FormLabel>Data de nascimento</FormLabel>
                 <Input
-                  placeholder="Data de nascimento"
+                  placeholder={user?.dateOfBirth}
                   {...register("dateOfBirth")}
                 />
               </FormControl>
 
               <FormControl mt={4}>
                 <FormLabel>E-mail</FormLabel>
-                <Input placeholder="E-mail" {...register("email")} />
+                <Input placeholder={user?.email} {...register("email")} />
               </FormControl>
 
               <FormControl mt={4}>
                 <FormLabel>Telefone</FormLabel>
-                <Input placeholder="Telefone" {...register("phone")} />
+                <Input placeholder={user?.phone} {...register("phone")} />
               </FormControl>
 
               <FormControl mt={4}>
                 <FormLabel>Descrição</FormLabel>
-                <Input placeholder="Descrição" {...register("description")} />
+                <Input placeholder={user?.description} {...register("description")} />
               </FormControl>
+            <ModalFooter>
+              <Button colorScheme="blue" mr={3} type="submit">
+                Salvar
+              </Button>
+              <Button onClick={() => setIsOpen(!isOpen)}>Cancelar</Button>
+            </ModalFooter>
             </form>
           </ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={() => EditProfile()}>
-              Salvar
-            </Button>
-            <Button onClick={() => setIsOpen(!isOpen)}>Cancelar</Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

@@ -56,6 +56,7 @@ export class UsersService {
           vehicle: true,
           user: true,
         },
+        address: true,
       },
 
     });
@@ -67,8 +68,23 @@ export class UsersService {
     return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const user = await this.usersRepository.findOne({
+      where: {
+        id: id,
+      },
+      relations: {
+        address: true,
+      },
+    });
+
+    const updatedUser = Object.assign(user, updateUserDto);
+
+    const saveOptions = { relations: ['address'] };
+
+    await this.usersRepository.save(updatedUser, saveOptions);
+
+    return user;
   }
 
   remove(id: number) {
