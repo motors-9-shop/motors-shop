@@ -1,11 +1,9 @@
-import Routes from "./routes";
+import { ChakraProvider } from "@chakra-ui/react";
+import MainRoutes from "./routes";
+import { styleGuide } from "./styles/styleGuide";
 
 const App = () => {
-  return (
-    <div className="App">
-      <Routes />
-    </div>
-  );
+  return <MainRoutes />;
 };
 
 export default App;
