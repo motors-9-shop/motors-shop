@@ -31,8 +31,8 @@ const Home = () => {
         p={isSmallerThan720 ? "32px 16px" : "32px 32px"}
         flexDir="column"
       >
-        <AdList adList={adCarList} title="Carros" />
-        <AdList adList={adMotocycleList} title="Motos" />
+        <AdList adList={adCarList} title="Carros" id="cars" />
+        <AdList adList={adMotocycleList} title="Motos" id="motocycles" />
       </Box>
       <Footer />
     </Box>

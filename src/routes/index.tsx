@@ -1,7 +1,10 @@
-import { Navigate, Route, Routes } from "react-router-dom";
 import AdDetailPage from "../pages/AdDetailPage";
 import RegisterPage from "../pages/RegisterPage";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "../pages/Home";
+import Profile from "../pages/Profile";
+import Login from "../pages/Login";
+import SignUp from "../pages/SignUp";
 
 const MainRoutes = () => {
   return (
@@ -12,6 +15,11 @@ const MainRoutes = () => {
       </Route>
       <Route path="register" element={<RegisterPage />} />
       <Route path="/" element={<Home />} />
+      <Route path="profile">
+        <Route path=":userId" element={<Profile />} />
+        <Route index element={<Navigate to="/" />} />
+      </Route>
+      <Route path="/login" element={<Login />} />
     </Routes>
   );
 };
