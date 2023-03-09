@@ -10,6 +10,9 @@ const MainRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="ad">
+        <Route path=":adId" element={<AdDetailPage />} />
+      </Route>
       <Route path="profile">
         <Route path=":userId" element={<Profile />} />
         <Route index element={<Navigate to="/" />} />

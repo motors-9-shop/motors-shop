@@ -1,26 +1,45 @@
-import { Button } from "@chakra-ui/react";
+import { Avatar } from "@chakra-ui/react";
 import Header from "../../components/Header";
 import { Main, SectionLeft, SectionRigth } from "./style";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import api from "../../services/api";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { IAd } from "../../interfaces";
+import StyledButton from "../../components/StyledButton";
+import UserCard from "../../components/UserCard";
+import { UserContext } from "../../contexts/userContext";
+import Footer from "../../components/Footer";
 
 const AdDetailPage = () => {
   let { adId } = useParams();
-  const [advDetail, setAdvDetail] = useState();
+  const [ad, setAd] = useState<IAd | null>(null);
+  const { user } = useContext(UserContext)
+  const [ commentValue, setCommentValue] = useState("")
+
+  const submitComment = () => {
+    const data = {
+      text: commentValue,
+      adId: ad?.id
+    }
+
+    api.post("/comments", data)
+  }
 
   useEffect(() => {
     api
-      .get(`/ad/${adId}`, {})
+      .get(`/ads/${adId}`, {})
       .then((res) => {
         console.log(res);
-        setAdvDetail(res.data);
+        setAd(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
+  const navigate = useNavigate()
+
+  if(ad)
   return (
     <>
       <Header />
@@ -28,33 +47,29 @@ const AdDetailPage = () => {
         <SectionLeft>
           <div className="div-car-geral">
             <div className="div-car">
-              <img src={advDetail} alt="" className="img-car" />
+              <img src={ad.vehicle.bannerUrl} alt="" className="img-car" />
             </div>
             <div className="div-info-car">
               <h1>
-                Mercedes Benz A 200 CGI ADVANCE SEDAN Mercedes Benz A 200{" "}
+                {ad.vehicle.name}
               </h1>
               <div className="div-info-car-infos">
-                <p>2013</p>
-                <p className="p-km">0 KM</p>
-                <p className="p-price">R$ 00.000,00</p>
+                <p>{ad.vehicle.year}</p>
+                <p className="p-km">{ad.vehicle.km} KM</p>
+                <p className="p-price">{ad.price}</p>
               </div>
-              <Button
+              <StyledButton
                 marginTop={"15px"}
                 width={"40%"}
-                backgroundColor={"brand.1"}
-                color={"grey.10"}
+                variant="brand"
               >
                 Comprar
-              </Button>
+              </StyledButton>
             </div>
             <div className="div-desc">
               <h2>Descrição</h2>
               <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book.
+                {ad.description}
               </p>
             </div>
           </div>
@@ -62,26 +77,18 @@ const AdDetailPage = () => {
             <div className="div-photo-car">
               <p className="p-photo">Fotos</p>
               <ul>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
+                {ad.vehicle.images.map(image => <li key={image.id}><img src={image.url} alt="" /></li>)}
               </ul>
             </div>
             <div className="div-user">
-              <img src={advDetail} alt="" className="img-user" />
-              <p className="p-name">Samuel Leão</p>
+              <Avatar name={ad.user.name} w="104px" h="104px"/>
+              <p className="p-name">{ad.user.name}</p>
               <p className="p-desc-user">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book.
+                {ad.user.description}
               </p>
-              <Button backgroundColor={"grey.0"} color={"grey.10"}>
+              <StyledButton variant="outline" onClick={() => navigate(`/profile/${ad.user.id}`)}>
                 Ver todos anuncios
-              </Button>
+              </StyledButton>
             </div>
           </div>
         </SectionLeft>
@@ -89,67 +96,47 @@ const AdDetailPage = () => {
           <div className="div-comments">
             <h2>Comentários</h2>
             <ul>
-              <li>
-                <p className="p-name-li">
-                  Julia Lima <span> há 3 dias</span>
-                </p>
-                <p>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book.
-                </p>
-              </li>
-              <li>
-                <p className="p-name-li">
-                  Julia Lima <span> há 3 dias</span>
-                </p>
-                <p>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book.
-                </p>
-              </li>
-              <li>
-                <p className="p-name-li">
-                  Julia Lima <span> há 3 dias</span>
-                </p>
-                <p>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book.
-                </p>
-              </li>
+              {ad.comments.map(comment => {
+                return (
+                  <li key={comment.id}>
+                    <p className="p-name-li">
+                      <UserCard username={comment.user.name} /> <span>No mesmo dia</span>
+                    </p>
+                    <p>
+                      {comment.text}
+                    </p>
+                  </li>
+                )
+              })}
             </ul>
           </div>
           <div className="div-user-comments">
-            <p>Samuel Leão</p>
+            {user && <UserCard username={user?.name} marginLeft={"5%"}/>}
             <textarea
               name=""
               id=""
-              defaultValue={
+              onChange={(e) => setCommentValue(e.target.value)}
+              placeholder={
                 "Carro muito confortável, foi uma ótima experiência de compra..."
               }
             ></textarea>
-            <Button
+            <StyledButton
               width={"30%"}
-              backgroundColor={"brand.1"}
-              color={"grey.10"}
+              variant="brand"
               marginLeft={"5%"}
+              isDisabled={!user}
+              onClick={() => submitComment()}
             >
               Comentar
-            </Button>
+            </StyledButton>
           </div>
         </SectionRigth>
       </Main>
-      <footer>Fazer o component footer</footer>
+      <Footer />
     </>
   );
+
+  return <></>
 };
 
 export default AdDetailPage;

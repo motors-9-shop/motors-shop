@@ -98,7 +98,7 @@ const Header = () => {
                 :
                 <>
                 <Button variant="ghost" textStyle="body-1-600" onClick={() => navigate("/login")}>Fazer Login</Button>
-                <Button variant="outline" textStyle="button-big-text" >Cadastrar</Button>
+                <Button variant="outline" textStyle="button-big-text" onClick={() => navigate("/signup")}>Cadastrar</Button>
                 </>
               }
             </>

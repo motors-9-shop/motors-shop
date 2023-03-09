@@ -323,7 +323,6 @@ export const SectionRigth = styled.section`
     margin-bottom: 5px;
 
     p {
-      padding-left: 20px;
       font-weight: bold;
       margin-bottom: 15px;
       margin-top: 10px;
