@@ -19,6 +19,7 @@ import Logo from "../../assets/logo.svg"
 import UserCard from "../UserCard";
 import { UserContext } from "../../contexts/userContext";
 import { useNavigate } from "react-router-dom";
+import StyledButton from "../StyledButton";
 
 const Header = () => {
   const [isLargerThan720] = useMediaQuery('(min-width: 720px)')
@@ -26,6 +27,27 @@ const Header = () => {
   const { user, logout } = useContext(UserContext)
 
   const navigate = useNavigate()
+
+  const scrollToCars = () => {
+    const car = document.getElementById('cars')
+
+    if(car)
+    car.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+  }
+
+  const scrollToMotocycles = () => {
+      const motocycle = document.getElementById('motocycles')
+
+      if(motocycle)
+      motocycle.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+  }
+
+  const scrollToAuctions = () => {
+    const auction = document.getElementById('auctions')
+
+      if(auction)
+      auction.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+  }
 
   return (  
     <Center 
@@ -47,9 +69,9 @@ const Header = () => {
         <HStack spacing="24px" h="100%">
           {isLargerThan720 &&
           <> 
-            <Link href="#">Carros</Link>
-            <Link href="#">Motos</Link>
-            <Link href="#">Leilão</Link>
+            <StyledButton variant="link" textStyle="body-2-400" onClick={scrollToCars}>Carros</StyledButton>
+            <StyledButton variant="link" textStyle="body-2-400" onClick={scrollToMotocycles}>Motos</StyledButton>
+            <StyledButton variant="link" textStyle="body-2-400" onClick={scrollToAuctions}>Leilão</StyledButton>
             <Divider
               w="2px"
               bg="grey.6"
