@@ -63,6 +63,9 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @Column({ nullable: true })
+  recoveryCode: string;
+
   @OneToOne(() => Address, (address) => address.user, {
     cascade: true,
     eager: true,

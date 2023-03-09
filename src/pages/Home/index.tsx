@@ -14,12 +14,11 @@ const Home = () => {
 
   useEffect(() => {
       (async function(){
-          const ads = await getAllAd()
-
-          if(ads){
-            setAdCarList(ads.sell.car)
-            setAdMotocycleList(ads.sell.motocycle)
-          }
+            const ads = await getAllAd()
+            if(ads){
+                setAdCarList(ads.sell.car)
+                setAdMotocycleList(ads.sell.motocycle)
+            }
       })()
   }, [])
 
@@ -32,18 +31,10 @@ const Home = () => {
             p={isSmallerThan720 ? "32px 16px" : "32px 32px"} 
             flexDir="column"
         >   
-            <Stack spacing={8}>
-                <Flex gap="1rem" flexDir="column">
-                    <Text as="h5" textStyle="heading-5-600">Carros</Text>
-                    <AdList adList={adCarList}/>
-                </Flex>
-                <Flex gap="1rem" flexDir="column">
-                    <Text as="h5" textStyle="heading-5-600">Motos</Text>
-                    <AdList adList={adMotocycleList}/>
-                </Flex>
-            </Stack>
+            <AdList adList={adCarList} title="Carros" id="cars"/>
+            <AdList adList={adMotocycleList} title="Motos" id="motocycles"/>
         </Box>
-        <Footer />
+        <Footer/>
     </Box>
   )
 }

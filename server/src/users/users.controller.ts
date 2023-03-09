@@ -1,6 +1,5 @@
 import {
   Body,
-  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -9,7 +8,6 @@ import {
   Patch,
   Post,
   SerializeOptions,
-  UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -17,7 +15,6 @@ import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 
 @Controller('users')
-@UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -34,7 +31,11 @@ export class UsersController {
 
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
-    return await this.usersService.findOne({ id });
+    return await this.usersService.findOne(
+      { id },
+      {},
+      { ads: { user: true, vehicle: true } },
+    );
   }
 
   @Patch(':id')
