@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from "@chakra-ui/react";
+import { Button, ButtonProps, Text } from "@chakra-ui/react";
 import { defaults } from "./defaults";
 
 interface StyledButtonProps extends ButtonProps {
@@ -8,7 +8,6 @@ interface StyledButtonProps extends ButtonProps {
 const StyledButton = ({ variant, children, ...rest }: StyledButtonProps) => {
   return (
     <Button 
-      textStyle="button-big-text"
       borderRadius={"4px"}
       _disabled={{
         colorScheme: "grey",
@@ -21,7 +20,12 @@ const StyledButton = ({ variant, children, ...rest }: StyledButtonProps) => {
       {...defaults[variant]} 
       {...rest} 
     >
-      {children}
+      {children && 
+      <Text
+        textStyle={rest.textStyle ? rest.textStyle : "button-big-text"}
+      >
+        {children}
+      </Text>}
     </Button>
   );
 };

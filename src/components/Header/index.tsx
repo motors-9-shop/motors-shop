@@ -19,6 +19,7 @@ import Logo from "../../assets/logo.svg"
 import UserCard from "../UserCard";
 import { UserContext } from "../../contexts/userContext";
 import { useNavigate } from "react-router-dom";
+import StyledButton from "../StyledButton";
 
 const Header = () => {
   const [isLargerThan720] = useMediaQuery('(min-width: 720px)')
@@ -27,9 +28,30 @@ const Header = () => {
 
   const navigate = useNavigate()
 
-  return (
-    <Center
-      w="100%"
+  const scrollToCars = () => {
+    const car = document.getElementById('cars')
+
+    if(car)
+    car.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+  }
+
+  const scrollToMotocycles = () => {
+      const motocycle = document.getElementById('motocycles')
+
+      if(motocycle)
+      motocycle.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+  }
+
+  const scrollToAuctions = () => {
+    const auction = document.getElementById('auctions')
+
+      if(auction)
+      auction.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+  }
+
+  return (  
+    <Center 
+      w="100%" 
       h="60px"
       bg="grey.10"
       borderBottom="2px solid var(--chakra-colors-grey-6)"
@@ -45,19 +67,22 @@ const Header = () => {
           <Image src={Logo} onClick={() => navigate("/")} cursor="pointer"/>
         </Box>
         <HStack spacing="24px" h="100%">
-          {isLargerThan720 && (
+          {isLargerThan720 &&
+          <> 
+            <StyledButton variant="link" textStyle="body-2-400" onClick={scrollToCars}>Carros</StyledButton>
+            <StyledButton variant="link" textStyle="body-2-400" onClick={scrollToMotocycles}>Motos</StyledButton>
+            <StyledButton variant="link" textStyle="body-2-400" onClick={scrollToAuctions}>Leilão</StyledButton>
+            <Divider
+              w="2px"
+              bg="grey.6"
+              color="grey.6"
+              orientation="vertical"
+            />
+          </>
+          }
+          {
+            isLargerThan720 ? 
             <>
-<<<<<<< HEAD
-              <Link href="#">Carros</Link>
-              <Link href="#">Motos</Link>
-              <Link href="#">Leilão</Link>
-              <Divider
-                w="2px"
-                bg="grey.6"
-                color="grey.6"
-                orientation="vertical"
-              />
-=======
               {user ?
               <Menu>
                 <MenuButton>
@@ -76,7 +101,6 @@ const Header = () => {
                 <Button variant="outline" textStyle="button-big-text" >Cadastrar</Button>
                 </>
               }
->>>>>>> df49f4340d8deb090a2d93d950d5cc05676ca7bc
             </>
           )}
           {isLargerThan720 ? (
@@ -118,16 +142,6 @@ const Header = () => {
                 <MenuItem>Carros</MenuItem>
                 <MenuItem>Motos</MenuItem>
                 <MenuItem>Leilão</MenuItem>
-<<<<<<< HEAD
-                {isSmallerThan720 && (
-                  <>
-                    <MenuItem borderTop="1px solid var(--chakra-colors-grey-4)">
-                      Fazer Login
-                    </MenuItem>
-                    <MenuItem>Cadastrar</MenuItem>
-                  </>
-                )}
-=======
                 { isSmallerThan720 &&
                 <>
                   {
@@ -141,7 +155,6 @@ const Header = () => {
                   }
                 </>
                 }
->>>>>>> df49f4340d8deb090a2d93d950d5cc05676ca7bc
               </MenuList>
             </Menu>
           )}

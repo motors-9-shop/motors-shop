@@ -1,14 +1,14 @@
-import { Box, Flex, HStack, SimpleGrid, Stack, Text, useMediaQuery } from "@chakra-ui/react"
+import { Box, Flex, FlexProps, HStack, SimpleGrid, Stack, Text, useMediaQuery } from "@chakra-ui/react"
 import { IAd } from "../../interfaces"
 import AdCard from "../AdCard"
 
-interface IAdListProps {
+interface IAdListProps extends FlexProps {
     adList: IAd[]
     title: string
     badge?: boolean
 }
 
-const AdList = ({adList, title, badge}: IAdListProps) => {
+const AdList = ({adList, title, badge, ...rest}: IAdListProps) => {
     const [isSmallerThan720] = useMediaQuery('(max-width: 720px)')
 
     return (
@@ -16,6 +16,7 @@ const AdList = ({adList, title, badge}: IAdListProps) => {
             flexDir="column"
             padding={isSmallerThan720 ? "2rem 0" : "80px 0"}
             gap="2rem"
+            {...rest}
         >
             <Text textStyle="heading-5-600">{title}</Text>
             <HStack 
