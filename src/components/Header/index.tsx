@@ -122,8 +122,8 @@ const Header = () => {
                     <UserCard username={user?.name} />
                   </MenuButton>
                   <MenuList textStyle="body-1-400" color="grey.2">
-                    <MenuItem>Editar Perfil</MenuItem>
-                    <MenuItem>Editar Endereço</MenuItem>
+                    <MenuItem onClick={() => setIsOpen(true)}>Editar Perfil</MenuItem>
+                    <MenuItem onClick={() => setIsOpenAddress(true)}>Editar Endereço</MenuItem>
                     <MenuItem>Minhas Compras</MenuItem>
                     <MenuItem onClick={() => logout()}>Sair</MenuItem>
                   </MenuList>

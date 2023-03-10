@@ -13,12 +13,15 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { Address } from './entities/address.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @InjectRepository(Address)
+    private adressesRepository: Repository<Address>,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -56,6 +59,7 @@ export class UsersService {
           vehicle: true,
           user: true,
         },
+        address: true,
       },
 
     });
@@ -67,8 +71,24 @@ export class UsersService {
     return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const user = await this.usersRepository.findOne({
+      where: {
+        id: id,
+      },
+      relations: {
+        address: true,
+      },
+    });
+
+    if (this.adressesRepository.findOne({}))
+    this.adressesRepository.delete(user.address.id);
+
+    const updatedUser = Object.assign(user, updateUserDto);
+
+    await this.usersRepository.save(updatedUser);
+
+    return user;
   }
 
   remove(id: number) {

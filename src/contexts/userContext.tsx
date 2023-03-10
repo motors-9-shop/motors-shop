@@ -1,11 +1,12 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IAd, IUser } from "../interfaces";
-import { createAd, getProfileByToken } from "../services";
+import { api, createAd, getProfileByToken } from "../services";
 
 interface IUserContextProps {
     user: IUser | null
     logout: () => void
+    setUser: () => void
 }
 
 export const UserContext = createContext<IUserContextProps>({} as IUserContextProps)
@@ -24,6 +25,7 @@ const UserProvider = ({children}: IUserProviderProps) => {
             const newUser = await getProfileByToken()
             if(newUser)
             setUser(newUser)
+            api.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem("@kenzie-motors:token")}`
         })()
     }, [])
 
@@ -34,7 +36,7 @@ const UserProvider = ({children}: IUserProviderProps) => {
     }
 
     return (
-        <UserContext.Provider value={{user, logout}}>
+        <UserContext.Provider value={{user, logout, setUser}}>
             {children}
         </UserContext.Provider>
     )

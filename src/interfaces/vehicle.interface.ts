@@ -1,4 +1,5 @@
 import { IAd } from "./ad.interface";
+import { IImage } from "./image.interface";
 
 export interface IVehicle {   
     id: string;
@@ -8,5 +9,5 @@ export interface IVehicle {
     bannerUrl: string;
     type: 'car' | 'motocycle';
     ad: IAd;
-    images: string;
+    images: IImage[]
 }
