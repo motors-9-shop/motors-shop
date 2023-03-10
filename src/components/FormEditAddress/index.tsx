@@ -23,14 +23,8 @@ interface IModalProf {
   setIsOpenAddress: any;
 }
 
-interface IAddress {
-  city: string;
-  state: string;
-  street: string;
-  email: string;
-  number: string | number;
-  complement: string;
-  cep: string;
+interface FormValues  {
+  address: PartialIAddress
 }
 
 export const ModalEditAddress = ({
@@ -39,14 +33,16 @@ export const ModalEditAddress = ({
 }: IModalProf) => {
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
-  const { handleSubmit, register } = useForm<IAddress>({
-    resolver: async (data) => {
+  const { handleSubmit, register } = useForm<FormValues>({
+    resolver: async (data: FormValues) => {
 
-      (data.address['state'])
-      Object.keys(data.address).forEach((key) => data.address[key] === "" && delete data.address[key]);
-    
+      Object.keys(data.address).forEach((key: string) => {
+        if (key == "city" || key =="state" || key == "street" || key == "number" || key == "complement" || key == "cep" ) {
+          data.address[key] === "" && delete data.address[key];
+        }
+      });
       return {
         values: data,
         errors: {},
@@ -54,13 +50,16 @@ export const ModalEditAddress = ({
     },
   });
 
-  const EditAddress = async (reqData: IAddress<Partial>) => {    
-    reqData.address.number = Number(reqData.address.number)
+  const EditAddress = async (reqData: FormValues) => {
+    const newData = {address: {...user?.address, ...reqData.address}}
     
-    const req = await api.patch(`/users/${user.id}`, reqData)
+    newData.address.number = Number(newData.address.number)
 
-    console.log()
+    delete newData.address.id
+    
+    const { data } = await api.patch(`/users/${user?.id}`, newData)
 
+    console.log(data)
   };
 
   return (
@@ -80,35 +79,34 @@ export const ModalEditAddress = ({
               <FormControl>
                 <FormLabel>Cidade</FormLabel>
                 <Input
-                  ref={initialRef}
-                  placeholder={user?.address.city}
+                  placeholder={user?.address?.city}
                   {...register("address.city")}
                 />
               </FormControl>
 
               <FormControl mt={4}>
                 <FormLabel>Estado</FormLabel>
-                <Input placeholder={user?.address.state} {...register("address.state")} />
+                <Input placeholder={user?.address?.state} {...register("address.state")} />
               </FormControl>
 
               <FormControl mt={4}>
                 <FormLabel>Rua</FormLabel>
-                <Input placeholder={user?.address.street} {...register("address.street")} />
+                <Input placeholder={user?.address?.street} {...register("address.street")} />
               </FormControl>
 
               <FormControl mt={4}>
                 <FormLabel>Número</FormLabel>
-                <Input placeholder={String(user?.address.number)} {...register("address.number")} />
+                <Input placeholder={String(user?.address?.number)} {...register("address.number")} />
               </FormControl>
 
               <FormControl mt={4}>
                 <FormLabel>Complemento</FormLabel>
-                <Input placeholder={user?.address.complement} {...register("address.complement")} />
+                <Input placeholder={user?.address?.complement} {...register("address.complement")} />
               </FormControl>
 
               <FormControl mt={4}>
                 <FormLabel>CEP</FormLabel>
-                <Input placeholder={user?.address.cep} {...register("address.cep")} />
+                <Input placeholder={user?.address?.cep} {...register("address.cep")} />
               </FormControl>
             <ModalFooter>
               <Button colorScheme="blue" mr={3} type="submit">

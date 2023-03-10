@@ -13,12 +13,15 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { Address } from './entities/address.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @InjectRepository(Address)
+    private adressesRepository: Repository<Address>,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -78,11 +81,12 @@ export class UsersService {
       },
     });
 
+    if (this.adressesRepository.findOne({}))
+    this.adressesRepository.delete(user.address.id);
+
     const updatedUser = Object.assign(user, updateUserDto);
 
-    const saveOptions = { relations: ['address'] };
-
-    await this.usersRepository.save(updatedUser, saveOptions);
+    await this.usersRepository.save(updatedUser);
 
     return user;
   }
